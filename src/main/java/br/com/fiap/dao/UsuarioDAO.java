@@ -39,6 +39,8 @@ public class UsuarioDAO {
         return usuarios;
     }
 
+    //Precisamos criar findByCPF
+
     public UsuarioTO findByCodigo(Long codigo) {
         UsuarioTO usuario = new UsuarioTO();
         String sql = "SELECT * FROM ddd_usuario WHERE id_user = ?";
