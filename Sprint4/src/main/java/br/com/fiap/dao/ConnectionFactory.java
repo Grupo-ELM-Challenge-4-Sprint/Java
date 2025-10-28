@@ -8,6 +8,7 @@ public class ConnectionFactory {
 
     private static Connection connection;
 
+    //Fechamento de conexão com BD
     public static void closeConnection() {
         try {
             if (!connection.isClosed()) {
@@ -18,15 +19,20 @@ public class ConnectionFactory {
         }
     }
 
+    //Abrindo conexão com BD
     public static Connection getConnection() {
         try {
             if (connection != null && !connection.isClosed()) {
                 return connection;
             }
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-            String user = "seu usuário";
-            String password = "sua senha";
+            String url = System.getenv("DB_URL");
+            String user = System.getenv("DB_USER");
+            String password = System.getenv("DB_PASSWORD");
+
+            if (url == null || user == null || password == null) {
+                throw new RuntimeException("Variáveis de ambiente do banco de dados não configuradas!");
+            }
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             System.out.println("Erro de SQL: " + e.getMessage());
