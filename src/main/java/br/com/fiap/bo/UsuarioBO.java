@@ -24,7 +24,7 @@ public class UsuarioBO {
     public UsuarioTO save (UsuarioTO usuario) {
         usuarioDAO = new UsuarioDAO();
 
-        String tel = usuario.getTelefone().replaceAll("[^0-9\\s-]", ""); // Deixa apenas os números e espaços do telefone
+        /*String tel = usuario.getTelefone().replaceAll("[^0-9\\s-]", ""); // Deixa apenas os números e espaços do telefone
         String cpf = usuario.getCpf().replaceAll("\\D", "").replaceAll(" ", ""); // Deixa apenas os números do cpf
         if (cpf.matches("\\d{11}") && usuario.getNome().matches("^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$") && usuario.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$") && usuario.getDataNascimento().isBefore(LocalDate.now()) && usuario.getTipoUsuario().equalsIgnoreCase("paciente") || usuario.getTipoUsuario().equalsIgnoreCase("cuidador")) {
             usuario.setCpf(cpf);
@@ -32,7 +32,9 @@ public class UsuarioBO {
             return usuarioDAO.save(usuario);
         } else {
             return null;
-        }
+        }*/
+
+        return usuarioDAO.save(usuario);
     }
 
     public boolean delete(Long codigo) {
@@ -44,7 +46,7 @@ public class UsuarioBO {
     public UsuarioTO update(UsuarioTO usuario) {
         usuarioDAO = new UsuarioDAO();
 
-        String tel = usuario.getTelefone().replaceAll("\\D", ""); // Deixa apenas os números do telefone
+        /*String tel = usuario.getTelefone().replaceAll("\\D", ""); // Deixa apenas os números do telefone
         String cpf = usuario.getCpf().replaceAll("\\D", "").replaceAll(" ", ""); // Deixa apenas os números do cpf
         if (cpf.matches("\\d{11}") && usuario.getNome().matches("^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$") && usuario.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$") && tel.matches("^\\d{10,11}$") && usuario.getDataNascimento().isBefore(LocalDate.now()) && usuario.getTipoUsuario().equalsIgnoreCase("paciente") || usuario.getTipoUsuario().equalsIgnoreCase("cuidador")) {
             usuario.setCpf(cpf);
@@ -52,6 +54,7 @@ public class UsuarioBO {
             return usuarioDAO.update(usuario);
         } else {
             return null;
-        }
+        }*/
+        return usuarioDAO.update(usuario);
     }
 }
