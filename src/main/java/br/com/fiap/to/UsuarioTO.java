@@ -11,11 +11,13 @@ public class UsuarioTO {
     private String telefone;
     private LocalDate dataNascimento;
     private String tipoUsuario;
+    private String cpfPaciente;
+    private String cpfCuidador;
 
     public UsuarioTO() {
     }
 
-    public UsuarioTO(Long idUser, String cpf, String nome, String senha, String email, String telefone, LocalDate dataNascimento, String tipoUsuario) {
+    public UsuarioTO(Long idUser, String cpf, String nome, String senha, String email, String telefone, LocalDate dataNascimento, String tipoUsuario, String cpfPaciente, String cpfCuidador) {
         this.idUser = idUser;
         this.cpf = cpf;
         this.nome = nome;
@@ -24,7 +26,11 @@ public class UsuarioTO {
         this.telefone = telefone;
         this.dataNascimento = dataNascimento;
         this.tipoUsuario = tipoUsuario;
+        this.cpfPaciente = cpfPaciente;
+        this.cpfCuidador = cpfCuidador;
     }
+
+    // Getters e Setters
 
     public Long getIdUser() {
         return idUser;
@@ -88,5 +94,21 @@ public class UsuarioTO {
 
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public String getCpfPaciente() {
+        return cpfPaciente;
+    }
+
+    public void setCpfPaciente(String cpfPaciente) {
+        this.cpfPaciente = cpfPaciente;
+    }
+
+    public String getCpfCuidador() {
+        return cpfCuidador;
+    }
+
+    public void setCpfCuidador(String cpfCuidador) {
+        this.cpfCuidador = cpfCuidador;
     }
 }

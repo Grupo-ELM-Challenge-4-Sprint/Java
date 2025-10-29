@@ -1,13 +1,12 @@
 package br.com.fiap.to;
 
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalDateTime; // Importado novamente
 
 public class ConsultaTO {
     private Long idConsulta;
     private String especialidade;
-    private String nomeCuidador;
+    private String medico;
     private LocalDate data;
     private LocalDateTime hora;
     private String tipo;
@@ -19,10 +18,10 @@ public class ConsultaTO {
     public ConsultaTO() {
     }
 
-    public ConsultaTO(Long idConsulta, String nomeCuidador, String especialidade, LocalDate data, LocalDateTime hora, String tipo, String local, String observacoes, String status, Long idUser) {
+    public ConsultaTO(Long idConsulta, String especialidade, String medico, LocalDate data, LocalDateTime hora, String tipo, String local, String observacoes, String status, Long idUser) {
         this.idConsulta = idConsulta;
-        this.nomeCuidador = nomeCuidador;
         this.especialidade = especialidade;
+        this.medico = medico;
         this.data = data;
         this.hora = hora;
         this.tipo = tipo;
@@ -32,81 +31,35 @@ public class ConsultaTO {
         this.idUser = idUser;
     }
 
-    public Long getIdConsulta() {
-        return idConsulta;
-    }
+    // Getters e Setters (ajustados para LocalDateTime hora e String local)
 
-    public void setIdConsulta(Long idConsulta) {
-        this.idConsulta = idConsulta;
-    }
+    public Long getIdConsulta() { return idConsulta; }
+    public void setIdConsulta(Long idConsulta) { this.idConsulta = idConsulta; }
 
-    public Long getIdUser() {
-        return idUser;
-    }
+    public String getEspecialidade() { return especialidade; }
+    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
-    }
+    public String getMedico() { return medico; }
+    public void setMedico(String medico) { this.medico = medico; }
 
-    public String getNomeCuidador() {
-        return nomeCuidador;
-    }
-
-    public void setNomeCuidador(String nomeCuidador) {
-        this.nomeCuidador = nomeCuidador;
-    }
-
-    public String getEspecialidade() {
-        return especialidade;
-    }
-
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
-    }
-
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
+    public LocalDate getData() { return data; }
+    public void setData(LocalDate data) { this.data = data; }
 
     public LocalDateTime getHora() { return hora; }
+    public void setHora(LocalDateTime hora) { this.hora = hora; }
 
-    public void setHora(LocalDateTime hora) {
-        this.hora = hora;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public String getTipo() {
-        return tipo;
-    }
+    public String getLocal() { return local; }
+    public void setLocal(String local) { this.local = local; }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    public String getObservacoes() { return observacoes; }
+    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
 
-    public String getLocal() {
-        return local;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public String getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public Long getIdUser() { return idUser; }
+    public void setIdUser(Long idUser) { this.idUser = idUser; }
 }

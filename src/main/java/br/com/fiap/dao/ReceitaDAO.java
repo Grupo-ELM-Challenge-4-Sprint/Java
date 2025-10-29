@@ -1,68 +1,58 @@
 package br.com.fiap.dao;
 
 import br.com.fiap.to.ReceitaTO;
-import br.com.fiap.to.UsuarioTO;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ReceitaDAO {
+
+    private void popularReceita(ReceitaTO receita, ResultSet rs) throws SQLException {
+        receita.setIdReceita(rs.getLong("id_receita"));
+        receita.setIdUser(rs.getLong("id_user"));
+        receita.setNomeMedicamento(rs.getString("nome_medicamento"));
+        receita.setFrequenciaHoras(rs.getInt("frequencia_horas")); // Ajustado para getInt
+
+        String diasDb = rs.getString("dias_semana");
+        receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
+
+        receita.setNumeroDiasTratamento(rs.getLong("numero_dias_tratamento"));
+        receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
+        receita.setHoraInicio(rs.getTimestamp("hora_inicio").toLocalDateTime()); // Ajustado
+        receita.setObservacoes(rs.getString("observacoes"));
+        receita.setStatus(rs.getString("status"));
+    }
+
     public ArrayList<ReceitaTO> findAll() {
-        ArrayList<ReceitaTO> receitas = new ArrayList<ReceitaTO>();
+        ArrayList<ReceitaTO> receitas = new ArrayList<>();
         String sql = "SELECT * FROM ddd_receita ORDER BY id_receita";
-        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
-        {
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
-            if (rs != null) {
-                while (rs.next()) {
-                    ReceitaTO receita = new ReceitaTO();
-                    receita.setIdReceita(rs.getLong("id_receita"));
-                    receita.setIdUser(rs.getLong("id_user"));
-                    receita.setNome(rs.getString("nome"));
-                    receita.setFrequencia(rs.getString("frequencia"));
-                    receita.setDias(new String[]{rs.getString("dias")});
-                    receita.setNumeroDias(rs.getLong("numero_dias"));
-                    receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
-                    receita.setHoraInicio(rs.getTimestamp("hora_inicio").toLocalDateTime());
-                    receita.setObservacoes(rs.getString("observacoes"));
-                    receita.setStatus(rs.getString("status"));
-                    receitas.add(receita);
-                }
-            } else {
-                return null;
+            while (rs.next()) {
+                ReceitaTO receita = new ReceitaTO();
+                popularReceita(receita, rs);
+                receitas.add(receita);
             }
         } catch (SQLException e) {
-            System.out.println("Erro na consulta: " + e.getMessage());
+            System.out.println("Erro na consulta de receitas: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
         return receitas;
     }
 
-    public ReceitaTO findByCodigo(Long id_user) {
-        ReceitaTO receita = new ReceitaTO();
-        String sql = "SELECT * FROM ddd_receita WHERE id_receita = ?";
-        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
-        {
-            ps.setLong(1, id_user);
+    public ReceitaTO findByCodigo(Long id_receita) { // Corrigido parâmetro
+        ReceitaTO receita = null;
+        String sql = "SELECT * FROM ddd_receita WHERE id_receita = ?"; // Corrigido WHERE
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setLong(1, id_receita); // Usar o parâmetro correto
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                receita.setIdReceita(rs.getLong("id_receita"));
-                receita.setIdUser(rs.getLong("id_user"));
-                receita.setNome(rs.getString("nome"));
-                receita.setFrequencia(rs.getString("frequencia"));
-                receita.setDias(new String[]{rs.getString("dias")});
-                receita.setNumeroDias(rs.getLong("numero_dias"));
-                receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
-                receita.setHoraInicio(rs.getTimestamp("hora_inicio").toLocalDateTime());
-                receita.setObservacoes(rs.getString("observacoes"));
-                receita.setStatus(rs.getString("status"));
-            } else {
-                return null;
+                receita = new ReceitaTO();
+                popularReceita(receita, rs);
             }
         } catch (SQLException e) {
-            System.out.println("Erro na consulta: " + e.getMessage());
+            System.out.println("Erro na consulta de receita por código: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
@@ -70,26 +60,23 @@ public class ReceitaDAO {
     }
 
     public ReceitaTO save(ReceitaTO receita) {
-        String sql = "INSERT INTO ddd_receita(nome, frequencia, dias, numero_dias, data_inicio, hora_inicio, observacoes, status, id_user) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO ddd_receita(nome_medicamento, frequencia_horas, dias_semana, numero_dias_tratamento, data_inicio, hora_inicio, observacoes, status, id_user) VALUES(?,?,?,?,?,?,?,?,?)";
 
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
-        {
-            ps.setString(1, receita.getNome());
-            ps.setString(2, receita.getFrequencia());
-            ps.setString(3, Arrays.toString(receita.getDias()));
-            ps.setLong(4, receita.getNumeroDias());
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setString(1, receita.getNomeMedicamento());
+            ps.setInt(2, receita.getFrequenciaHoras()); // Ajustado para setInt
+            ps.setString(3, String.join(",", receita.getDias()));
+            ps.setLong(4, receita.getNumeroDiasTratamento());
             ps.setDate(5, Date.valueOf(receita.getDataInicio()));
-            ps.setTimestamp(6, Timestamp.valueOf(receita.getHoraInicio()));
+            ps.setTimestamp(6, Timestamp.valueOf(receita.getHoraInicio())); // Ajustado
             ps.setString(7, receita.getObservacoes());
             ps.setString(8, receita.getStatus());
             ps.setLong(9, receita.getIdUser());
             if (ps.executeUpdate() > 0) {
                 return receita;
-            } else {
-                return null;
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao salvar: " + e.getMessage());
+            System.out.println("Erro ao salvar receita: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
@@ -97,12 +84,12 @@ public class ReceitaDAO {
     }
 
     public boolean delete(Long id_receita) {
-        String sql = "delete from ddd_receita where id_receita = ?";
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
+        String sql = "DELETE FROM ddd_receita WHERE id_receita = ?";
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id_receita);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Erro ao excluir: " + e.getMessage());
+            System.out.println("Erro ao excluir receita: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
@@ -110,26 +97,25 @@ public class ReceitaDAO {
     }
 
     public ReceitaTO update(ReceitaTO receita) {
-        String sql = "update ddd_receita set id_user=?, nome=?, frequencia=?, dias=?, numero_dias=?, data_inicio=?, hora_inicio=?, observacoes=?, status=? where id_receita=?";
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
-            ps.setLong(1, receita.getIdUser());
-            ps.setString(2, receita.getNome());
-            ps.setString(3, receita.getFrequencia());
-            ps.setString(4, Arrays.toString(receita.getDias()));
-            ps.setLong(5, receita.getNumeroDias());
-            ps.setDate(6, Date.valueOf(receita.getDataInicio()));
-            ps.setTimestamp(7, Timestamp.valueOf(receita.getHoraInicio()));
-            ps.setString(8, receita.getObservacoes());
-            ps.setString(9, receita.getStatus());
-            ps.setLong(10, receita.getIdReceita());
+        // Ajustado id_user para o final e id_receita para o WHERE
+        String sql = "UPDATE ddd_receita SET nome_medicamento=?, frequencia_horas=?, dias_semana=?, numero_dias_tratamento=?, data_inicio=?, hora_inicio=?, observacoes=?, status=?, id_user=? WHERE id_receita=?";
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setString(1, receita.getNomeMedicamento());
+            ps.setInt(2, receita.getFrequenciaHoras()); // Ajustado para setInt
+            ps.setString(3, String.join(",", receita.getDias()));
+            ps.setLong(4, receita.getNumeroDiasTratamento());
+            ps.setDate(5, Date.valueOf(receita.getDataInicio()));
+            ps.setTimestamp(6, Timestamp.valueOf(receita.getHoraInicio())); // Ajustado
+            ps.setString(7, receita.getObservacoes());
+            ps.setString(8, receita.getStatus());
+            ps.setLong(9, receita.getIdUser());
+            ps.setLong(10, receita.getIdReceita()); // Corrigido índice
 
             if (ps.executeUpdate() > 0) {
                 return receita;
-            } else {
-                return null;
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar: " + e.getMessage());
+            System.out.println("Erro ao atualizar receita: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }

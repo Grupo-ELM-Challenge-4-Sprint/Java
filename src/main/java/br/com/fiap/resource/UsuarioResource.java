@@ -17,14 +17,20 @@ public class UsuarioResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         ArrayList<UsuarioTO> resultado = usuarioBO.findAll();
-        Response.ResponseBuilder response = null;
+        // O ideal é sempre retornar OK com uma lista vazia, em vez de 404
+        return Response.ok(resultado).build();
+    }
+
+    @GET
+    @Path("/cpf/{cpf}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByCpf(@PathParam("cpf") String cpf) {
+        UsuarioTO resultado = usuarioBO.findByCpf(cpf);
         if (resultado != null) {
-            response = Response.ok();  // 200 - OK
+            return Response.ok(resultado).build();
         } else {
-            response = Response.status(404);  // 404 - NOT FOUND
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        response.entity(resultado);
-        return response.build();
     }
 
     @GET
@@ -32,56 +38,47 @@ public class UsuarioResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByCodigo(@PathParam("id_user") Long codigo) {
         UsuarioTO resultado = usuarioBO.findByCodigo(codigo);
-        Response.ResponseBuilder response = null;
         if (resultado != null) {
-            response = Response.ok();  // 200 (OK)
+            return Response.ok(resultado).build();
         } else {
-            response = Response.status(404);  // 404 (NOT FOUND)
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        response.entity(resultado);
-        return response.build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid UsuarioTO usuario) {
         UsuarioTO resultado = usuarioBO.save(usuario);
-        Response.ResponseBuilder response = null;
         if (resultado != null) {
-            response = Response.created(null);  // 201 - CREATED
+            // Retorna o objeto criado com status 201
+            return Response.status(Response.Status.CREATED).entity(resultado).build();
         } else {
-            response = Response.status(400);  // 400 - BAD REQUEST
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        response.entity(resultado);
-        return response.build();
     }
 
     @DELETE
     @Path("/{id_user}")
     public Response delete(@PathParam("id_user") Long codigo) {
-        Response.ResponseBuilder response = null;
         if (usuarioBO.delete(codigo)) {
-            response = Response.status(204); // 204 - NO CONTENT
+            return Response.noContent().build(); // 204
         } else {
-            response = Response.status(404); // 404 - NOT FOUND
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return response.build();
     }
 
     @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id_user}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response update(@Valid UsuarioTO usuario, @PathParam("id_user") Long idUser) {
         usuario.setIdUser(idUser);
         UsuarioTO resultado = usuarioBO.update(usuario);
-        Response.ResponseBuilder response = null;
-
         if (resultado != null) {
-            response = Response.created(null); // 201 - CREATED (Também poderia usar o 200 - OK)
+            return Response.ok(resultado).build(); // 200
         } else {
-            response = Response.status(400); // 400 - BAD REQUEST
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        response.entity(resultado);
-        return response.build();
     }
 }
