@@ -34,4 +34,10 @@ public class ConsultaBO {
         // A validação de nomeCuidador foi removida.
         return consultaDAO.update(consulta);
     }
+
+    public ArrayList<ConsultaTO> findAllByUserId(Long userId) {
+        consultaDAO = new ConsultaDAO();
+        // Aqui você pode adicionar regras de negócio se necessário antes de chamar o DAO
+        return consultaDAO.findAllByUserId(userId);
+    }
 }

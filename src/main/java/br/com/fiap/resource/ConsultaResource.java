@@ -84,4 +84,13 @@ public class ConsultaResource {
         response.entity(resultado);
         return response.build();
     }
+
+    @GET
+    @Path("/usuario/{userId}") // Novo endpoint
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllByUserId(@PathParam("userId") Long userId) {
+        ArrayList<ConsultaTO> resultado = consultaBO.findAllByUserId(userId);
+        // Retorna OK mesmo se a lista estiver vazia, como padrão REST
+        return Response.ok(resultado).build();
+    }
 }

@@ -45,4 +45,10 @@ public class ReceitaBO {
             return null;
         }
     }
+
+    public ArrayList<ReceitaTO> findAllByUserId(Long userId) {
+        receitaDAO = new ReceitaDAO();
+        // Regras de negócio aqui, se necessário
+        return receitaDAO.findAllByUserId(userId);
+    }
 }

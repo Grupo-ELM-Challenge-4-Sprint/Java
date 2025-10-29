@@ -28,6 +28,15 @@ public class ReceitaResource {
     }
 
     @GET
+    @Path("/usuario/{userId}") // Novo endpoint
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllByUserId(@PathParam("userId") Long userId) {
+        ArrayList<ReceitaTO> resultado = receitaBO.findAllByUserId(userId);
+        // Retorna OK mesmo se a lista estiver vazia
+        return Response.ok(resultado).build();
+    }
+
+    @GET
     @Path("/{id_receita}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByCodigo(@PathParam("id_receita") Long codigo) {

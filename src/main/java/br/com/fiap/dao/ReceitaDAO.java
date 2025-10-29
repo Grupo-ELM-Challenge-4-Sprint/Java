@@ -23,6 +23,25 @@ public class ReceitaDAO {
         receita.setStatus(rs.getString("status"));
     }
 
+    public ArrayList<ReceitaTO> findAllByUserId(Long userId) {
+        ArrayList<ReceitaTO> receitas = new ArrayList<>();
+        String sql = "SELECT * FROM ddd_receita WHERE id_user = ? ORDER BY data_inicio DESC, hora_inicio DESC"; // Ordenar
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ReceitaTO receita = new ReceitaTO();
+                popularReceita(receita, rs); // Reutiliza o método existente
+                receitas.add(receita);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro na consulta de receitas por ID de usuário: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        return receitas;
+    }
+
     public ArrayList<ReceitaTO> findAll() {
         ArrayList<ReceitaTO> receitas = new ArrayList<>();
         String sql = "SELECT * FROM ddd_receita ORDER BY id_receita";

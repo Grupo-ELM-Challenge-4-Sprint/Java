@@ -20,6 +20,25 @@ public class ConsultaDAO {
         consulta.setIdUser(rs.getLong("id_user"));
     }
 
+    public ArrayList<ConsultaTO> findAllByUserId(Long userId) {
+        ArrayList<ConsultaTO> consultas = new ArrayList<>();
+        String sql = "SELECT * FROM ddd_consulta WHERE id_user = ? ORDER BY data_consulta DESC, hora_consulta DESC"; // Ordenar por data/hora
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ConsultaTO consulta = new ConsultaTO();
+                popularConsulta(consulta, rs); // Reutiliza o método existente
+                consultas.add(consulta);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro na consulta por ID de usuário: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        return consultas;
+    }
+
     public ArrayList<ConsultaTO> findAll() {
         ArrayList<ConsultaTO> consultas = new ArrayList<>();
         String sql = "SELECT * FROM ddd_consulta ORDER BY id_consulta";
