@@ -10,7 +10,7 @@ public class ReceitaTO {
     private String[] dias;
     private Long numeroDiasTratamento;
     private LocalDate dataInicio;
-    private LocalDateTime horaInicio;
+    private String horaInicio;
     private String observacoes;
     private String status;
     private Long idUser;
@@ -18,7 +18,7 @@ public class ReceitaTO {
     public ReceitaTO() {
     }
 
-    public ReceitaTO(Long idReceita, String nomeMedicamento, int frequenciaHoras, String[] dias, Long numeroDiasTratamento, LocalDate dataInicio, LocalDateTime horaInicio, String observacoes, String status, Long idUser) {
+    public ReceitaTO(Long idReceita, String nomeMedicamento, int frequenciaHoras, String[] dias, Long numeroDiasTratamento, LocalDate dataInicio, String horaInicio, String observacoes, String status, Long idUser) {
         this.idReceita = idReceita;
         this.nomeMedicamento = nomeMedicamento;
         this.frequenciaHoras = frequenciaHoras;
@@ -51,8 +51,8 @@ public class ReceitaTO {
     public LocalDate getDataInicio() { return dataInicio; }
     public void setDataInicio(LocalDate dataInicio) { this.dataInicio = dataInicio; }
 
-    public LocalDateTime getHoraInicio() { return horaInicio; } // Tipo ajustado
-    public void setHoraInicio(LocalDateTime horaInicio) { this.horaInicio = horaInicio; }
+    public String getHoraInicio() { return horaInicio; } // Tipo ajustado
+    public void setHoraInicio(String horaInicio) { this.horaInicio = horaInicio; }
 
     public String getObservacoes() { return observacoes; }
     public void setObservacoes(String observacoes) { this.observacoes = observacoes; }

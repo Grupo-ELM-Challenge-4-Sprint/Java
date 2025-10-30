@@ -11,14 +11,14 @@ public class ReceitaDAO {
         receita.setIdReceita(rs.getLong("id_receita"));
         receita.setIdUser(rs.getLong("id_user"));
         receita.setNomeMedicamento(rs.getString("nome_medicamento"));
-        receita.setFrequenciaHoras(rs.getInt("frequencia_horas")); // Ajustado para getInt
+        receita.setFrequenciaHoras(rs.getInt("frequencia_horas"));
 
         String diasDb = rs.getString("dias_semana");
         receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
 
         receita.setNumeroDiasTratamento(rs.getLong("numero_dias_tratamento"));
         receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
-        receita.setHoraInicio(rs.getTimestamp("hora_inicio").toLocalDateTime()); // Ajustado
+        receita.setHoraInicio(rs.getString("hora_inicio"));
         receita.setObservacoes(rs.getString("observacoes"));
         receita.setStatus(rs.getString("status"));
     }
@@ -83,11 +83,11 @@ public class ReceitaDAO {
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, receita.getNomeMedicamento());
-            ps.setInt(2, receita.getFrequenciaHoras()); // Ajustado para setInt
+            ps.setInt(2, receita.getFrequenciaHoras());
             ps.setString(3, String.join(",", receita.getDias()));
             ps.setLong(4, receita.getNumeroDiasTratamento());
             ps.setDate(5, Date.valueOf(receita.getDataInicio()));
-            ps.setTimestamp(6, Timestamp.valueOf(receita.getHoraInicio())); // Ajustado
+            ps.setString(6, receita.getHoraInicio());
             ps.setString(7, receita.getObservacoes());
             ps.setString(8, receita.getStatus());
             ps.setLong(9, receita.getIdUser());
@@ -120,11 +120,11 @@ public class ReceitaDAO {
         String sql = "UPDATE ddd_receita SET nome_medicamento=?, frequencia_horas=?, dias_semana=?, numero_dias_tratamento=?, data_inicio=?, hora_inicio=?, observacoes=?, status=?, id_user=? WHERE id_receita=?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, receita.getNomeMedicamento());
-            ps.setInt(2, receita.getFrequenciaHoras()); // Ajustado para setInt
+            ps.setInt(2, receita.getFrequenciaHoras());
             ps.setString(3, String.join(",", receita.getDias()));
             ps.setLong(4, receita.getNumeroDiasTratamento());
             ps.setDate(5, Date.valueOf(receita.getDataInicio()));
-            ps.setTimestamp(6, Timestamp.valueOf(receita.getHoraInicio())); // Ajustado
+            ps.setString(6, receita.getHoraInicio());
             ps.setString(7, receita.getObservacoes());
             ps.setString(8, receita.getStatus());
             ps.setLong(9, receita.getIdUser());

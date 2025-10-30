@@ -12,9 +12,9 @@ public class ConsultaDAO {
         consulta.setEspecialidade(rs.getString("especialidade"));
         consulta.setMedico(rs.getString("medico"));
         consulta.setData(rs.getDate("data_consulta").toLocalDate());
-        consulta.setHora(rs.getTimestamp("hora_consulta").toLocalDateTime()); // Ajustado
+        consulta.setHora(rs.getString("hora_consulta"));
         consulta.setTipo(rs.getString("tipo"));
-        consulta.setLocal(rs.getString("local")); // Ajustado
+        consulta.setLocal(rs.getString("local"));
         consulta.setObservacoes(rs.getString("observacoes"));
         consulta.setStatus(rs.getString("status"));
         consulta.setIdUser(rs.getLong("id_user"));
@@ -83,9 +83,9 @@ public class ConsultaDAO {
             ps.setString(1, consulta.getEspecialidade());
             ps.setString(2, consulta.getMedico());
             ps.setDate(3, Date.valueOf(consulta.getData()));
-            ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora())); // Ajustado
+            ps.setString(4, consulta.getHora());
             ps.setString(5, consulta.getTipo());
-            ps.setString(6, consulta.getLocal()); // Ajustado
+            ps.setString(6, consulta.getLocal());
             ps.setString(7, consulta.getObservacoes());
             ps.setString(8, consulta.getStatus());
             ps.setLong(9, consulta.getIdUser());
@@ -120,9 +120,9 @@ public class ConsultaDAO {
             ps.setString(1, consulta.getEspecialidade());
             ps.setString(2, consulta.getMedico());
             ps.setDate(3, Date.valueOf(consulta.getData()));
-            ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora())); // Ajustado
+            ps.setString(4, consulta.getHora());
             ps.setString(5, consulta.getTipo());
-            ps.setString(6, consulta.getLocal()); // Ajustado
+            ps.setString(6, consulta.getLocal());
             ps.setString(7, consulta.getObservacoes());
             ps.setString(8, consulta.getStatus());
             ps.setLong(9, consulta.getIdUser());

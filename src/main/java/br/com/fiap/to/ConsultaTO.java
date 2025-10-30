@@ -8,7 +8,7 @@ public class ConsultaTO {
     private String especialidade;
     private String medico;
     private LocalDate data;
-    private LocalDateTime hora;
+    private String hora;
     private String tipo;
     private String local;
     private String observacoes;
@@ -18,7 +18,7 @@ public class ConsultaTO {
     public ConsultaTO() {
     }
 
-    public ConsultaTO(Long idConsulta, String especialidade, String medico, LocalDate data, LocalDateTime hora, String tipo, String local, String observacoes, String status, Long idUser) {
+    public ConsultaTO(Long idConsulta, String especialidade, String medico, LocalDate data, String hora, String tipo, String local, String observacoes, String status, Long idUser) {
         this.idConsulta = idConsulta;
         this.especialidade = especialidade;
         this.medico = medico;
@@ -45,8 +45,8 @@ public class ConsultaTO {
     public LocalDate getData() { return data; }
     public void setData(LocalDate data) { this.data = data; }
 
-    public LocalDateTime getHora() { return hora; }
-    public void setHora(LocalDateTime hora) { this.hora = hora; }
+    public String getHora() { return hora; }
+    public void setHora(String hora) { this.hora = hora; }
 
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
