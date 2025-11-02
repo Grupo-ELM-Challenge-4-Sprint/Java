@@ -13,11 +13,12 @@ public class UsuarioTO {
     private String tipoUsuario;
     private String cpfPaciente;
     private String cpfCuidador;
+    private boolean pacienteEditar = true;
 
     public UsuarioTO() {
     }
 
-    public UsuarioTO(Long idUser, String cpf, String nome, String senha, String email, String telefone, LocalDate dataNascimento, String tipoUsuario, String cpfPaciente, String cpfCuidador) {
+    public UsuarioTO(Long idUser, String cpf, String nome, String senha, String email, String telefone, LocalDate dataNascimento, String tipoUsuario, String cpfPaciente, String cpfCuidador, boolean pacienteEditar) {
         this.idUser = idUser;
         this.cpf = cpf;
         this.nome = nome;
@@ -28,6 +29,7 @@ public class UsuarioTO {
         this.tipoUsuario = tipoUsuario;
         this.cpfPaciente = cpfPaciente;
         this.cpfCuidador = cpfCuidador;
+        this.pacienteEditar = pacienteEditar;
     }
 
     // Getters e Setters
@@ -110,5 +112,13 @@ public class UsuarioTO {
 
     public void setCpfCuidador(String cpfCuidador) {
         this.cpfCuidador = cpfCuidador;
+    }
+
+    public boolean isPacienteEditar() {
+        return pacienteEditar;
+    }
+
+    public void setPacienteEditar(boolean pacienteEditar) {
+        this.pacienteEditar = pacienteEditar;
     }
 }

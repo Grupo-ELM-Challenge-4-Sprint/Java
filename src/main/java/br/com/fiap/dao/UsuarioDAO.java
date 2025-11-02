@@ -21,6 +21,7 @@ public class UsuarioDAO {
         usuario.setTipoUsuario(rs.getString("tipo_usuario"));
         usuario.setCpfPaciente(rs.getString("cpf_paciente"));
         usuario.setCpfCuidador(rs.getString("cpf_cuidador"));
+        usuario.setPacienteEditar(rs.getInt("paciente_editar") == 1);
     }
 
     public ArrayList<UsuarioTO> findAll() {
@@ -78,7 +79,7 @@ public class UsuarioDAO {
     }
 
     public UsuarioTO save(UsuarioTO usuario) {
-        String sql = "INSERT INTO ddd_usuario(cpf, nome, senha, email, telefone, data_nascimento, tipo_usuario, cpf_paciente, cpf_cuidador) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO ddd_usuario(cpf, nome, senha, email, telefone, data_nascimento, tipo_usuario, cpf_paciente, cpf_cuidador, paciente_editar) VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, usuario.getCpf());
@@ -90,6 +91,7 @@ public class UsuarioDAO {
             ps.setString(7, usuario.getTipoUsuario());
             ps.setString(8, usuario.getCpfPaciente());
             ps.setString(9, usuario.getCpfCuidador());
+            ps.setBoolean(10, usuario.isPacienteEditar());
             if (ps.executeUpdate() > 0) {
                 return usuario;
             }
@@ -115,7 +117,7 @@ public class UsuarioDAO {
     }
 
     public UsuarioTO update(UsuarioTO usuario) {
-        String sql = "UPDATE ddd_usuario SET cpf=?, nome=?, senha=?, email=?, telefone=?, data_nascimento=?, tipo_usuario=?, cpf_paciente=?, cpf_cuidador=? WHERE id_user=?";
+        String sql = "UPDATE ddd_usuario SET cpf=?, nome=?, senha=?, email=?, telefone=?, data_nascimento=?, tipo_usuario=?, cpf_paciente=?, cpf_cuidador=?, paciente_editar=? WHERE id_user=?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, usuario.getCpf());
             ps.setString(2, usuario.getNome());
@@ -126,7 +128,8 @@ public class UsuarioDAO {
             ps.setString(7, usuario.getTipoUsuario());
             ps.setString(8, usuario.getCpfPaciente());
             ps.setString(9, usuario.getCpfCuidador());
-            ps.setLong(10, usuario.getIdUser());
+            ps.setBoolean(10, usuario.isPacienteEditar());
+            ps.setLong(11, usuario.getIdUser());
 
             if (ps.executeUpdate() > 0) {
                 return usuario;
