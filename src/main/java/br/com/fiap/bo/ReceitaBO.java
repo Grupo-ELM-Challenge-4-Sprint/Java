@@ -22,12 +22,8 @@ public class ReceitaBO {
 
     public ReceitaTO save (ReceitaTO receita) {
         receitaDAO = new ReceitaDAO();
-
-        if (receita.getNomeMedicamento().matches("^[A-Za-zÀ-ÖØ-öø-ÿ0-9.,\\s\\-/]+$") && receita.getStatus().equalsIgnoreCase("Ativo") || receita.getStatus().equalsIgnoreCase("Inativo")) {
-            return receitaDAO.save(receita);
-        } else {
-            return null;
-        }
+        // Regras de negócio aqui, se necessário
+        return receitaDAO.save(receita);
     }
 
     public boolean delete(Long codigo) {
@@ -38,12 +34,8 @@ public class ReceitaBO {
 
     public ReceitaTO update(ReceitaTO receita) {
         receitaDAO = new ReceitaDAO();
-
-        if (receita.getNomeMedicamento().matches("^[A-Za-zÀ-ÖØ-öø-ÿ0-9.,\\s\\-/]+$") && receita.getStatus().equalsIgnoreCase("Ativo") || receita.getStatus().equalsIgnoreCase("Inativo")) {
-            return receitaDAO.update(receita);
-        } else {
-            return null;
-        }
+        // Regras de negócio aqui, se necessário
+        return receitaDAO.update(receita);
     }
 
     public ArrayList<ReceitaTO> findAllByUserId(Long userId) {
