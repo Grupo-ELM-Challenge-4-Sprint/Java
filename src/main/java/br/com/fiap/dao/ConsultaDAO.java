@@ -42,7 +42,7 @@ public class ConsultaDAO {
                     consulta.setEspecialidade(rs.getString("especialidade"));
                     consulta.setMedico(rs.getString("medico"));
                     consulta.setData(rs.getDate("data").toLocalDate());
-                    consulta.setHora(rs.getTimestamp("hora").toLocalDateTime());
+                    consulta.setHora(rs.getString("hora"));
                     consulta.setTipo(rs.getString("tipo"));
                     consulta.setLocal(rs.getString("local"));
                     consulta.setObservacoes(rs.getString("observacoes"));
@@ -79,7 +79,7 @@ public class ConsultaDAO {
                 consulta.setEspecialidade(rs.getString("especialidade"));
                 consulta.setMedico(rs.getString("medico"));
                 consulta.setData(rs.getDate("data").toLocalDate());
-                consulta.setHora(rs.getTimestamp("hora").toLocalDateTime());
+                consulta.setHora(rs.getString("hora"));
                 consulta.setTipo(rs.getString("tipo"));
                 consulta.setLocal(rs.getString("local"));
                 consulta.setObservacoes(rs.getString("observacoes"));
