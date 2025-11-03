@@ -9,76 +9,119 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 
+/**
+ * <p>Classe Resource que expõe os endpoints REST para operações relacionadas a usuários.</p>
+ * <p>Utiliza a {@link br.com.fiap.bo.UsuarioBO} para manipulação de dados.</p>
+ *
+ * Endpoints disponíveis:
+ * <ul>
+ *     <li>GET /usuario - Retorna todos os usuários</li>
+ *     <li>GET /usuario/{id_user} - Retorna usuário pelo ID</li>
+ *     <li>GET /usuario/{cpf} - Retorna usuário pelo CPF</li>
+ *     <li>POST /usuario - Cadastra um novo usuário</li>
+ *     <li>PUT /usuario/{id_user} - Atualiza usuário existente</li>
+ *     <li>DELETE /usuario/{id_user} - Remove usuário pelo ID</li>
+ * </ul>
+ *
+ * @author Lucas Barros Gouveia
+ * @author Enzo Okuizumi Miranda de Souza
+ * @author Milton Jakson de Souza Marcelino
+ * @version 1.0
+ * @since 21.0.7
+ */
 @Path("/usuario")
 public class UsuarioResource {
     private UsuarioBO usuarioBO = new UsuarioBO();
 
+    /**
+     * Retorna todos os usuários.
+     *
+     * @return Response com status 200 (OK) e lista de {@link UsuarioTO}, ou 404 se não houver dados.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         ArrayList<UsuarioTO> resultado = usuarioBO.findAll();
-        // O ideal é sempre retornar OK com uma lista vazia, em vez de 404
-        return Response.ok(resultado).build();
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
+        response.entity(resultado);
+        return response.build();
     }
 
-    @GET
-    @Path("/cpf/{cpf}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findByCpf(@PathParam("cpf") String cpf) {
-        UsuarioTO resultado = usuarioBO.findByCpf(cpf);
-        if (resultado != null) {
-            return Response.ok(resultado).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-    }
-
+    /**
+     * Busca usuário pelo ID.
+     *
+     * @param codigo ID do usuário.
+     * @return Response com status 200 (OK) e {@link UsuarioTO}, ou 404 se não encontrado.
+     */
     @GET
     @Path("/{id_user}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByCodigo(@PathParam("id_user") Long codigo) {
         UsuarioTO resultado = usuarioBO.findByCodigo(codigo);
-        if (resultado != null) {
-            return Response.ok(resultado).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
+        response.entity(resultado);
+        return response.build();
     }
 
+    /**
+     * Busca usuário pelo CPF.
+     *
+     * @param cpf CPF do usuário.
+     * @return Response com status 200 (OK) e {@link UsuarioTO}, ou 404 se não encontrado.
+     */
+    @GET
+    @Path("/{cpf}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByCpf(@PathParam("cpf") String cpf) {
+        UsuarioTO resultado = usuarioBO.findByCpf(cpf);
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
+        response.entity(resultado);
+        return response.build();
+    }
+
+    /**
+     * Cadastra um novo usuário.
+     *
+     * @param usuario {@link UsuarioTO} com os dados do usuário.
+     * @return Response com status 201 (CREATED) e {@link UsuarioTO}, ou 400 se falhar.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response save(@Valid UsuarioTO usuario) {
         UsuarioTO resultado = usuarioBO.save(usuario);
-        if (resultado != null) {
-            // Retorna o objeto criado com status 201
-            return Response.status(Response.Status.CREATED).entity(resultado).build();
-        } else {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        Response.ResponseBuilder response = (resultado != null) ? Response.created(null) : Response.status(400);
+        response.entity(resultado);
+        return response.build();
     }
 
-    @DELETE
-    @Path("/{id_user}")
-    public Response delete(@PathParam("id_user") Long codigo) {
-        if (usuarioBO.delete(codigo)) {
-            return Response.noContent().build(); // 204
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-    }
-
+    /**
+     * Atualiza um usuário existente.
+     *
+     * @param usuario {@link UsuarioTO} com dados atualizados.
+     * @param idUser ID do usuário a ser atualizado.
+     * @return Response com status 201 (CREATED) e {@link UsuarioTO}, ou 400 se falhar.
+     */
     @PUT
-    @Path("/{id_user}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id_user}")
     public Response update(@Valid UsuarioTO usuario, @PathParam("id_user") Long idUser) {
         usuario.setIdUser(idUser);
         UsuarioTO resultado = usuarioBO.update(usuario);
-        if (resultado != null) {
-            return Response.ok(resultado).build(); // 200
-        } else {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        Response.ResponseBuilder response = (resultado != null) ? Response.created(null) : Response.status(400);
+        response.entity(resultado);
+        return response.build();
+    }
+
+    /**
+     * Remove usuário pelo ID.
+     *
+     * @param codigo ID do usuário a ser removido.
+     * @return Response com status 204 (NO CONTENT) se removido, ou 404 se não encontrado.
+     */
+    @DELETE
+    @Path("/{id_user}")
+    public Response delete(@PathParam("id_user") Long codigo) {
+        Response.ResponseBuilder response = (usuarioBO.delete(codigo)) ? Response.status(204) : Response.status(404);
+        return response.build();
     }
 }

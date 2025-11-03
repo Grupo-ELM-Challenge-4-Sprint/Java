@@ -5,49 +5,53 @@ import br.com.fiap.to.ConsultaTO;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Classe responsável pelo acesso e manipulação dos dados da entidade {@link ConsultaTO}
+ * na base de dados SQL.
+ * <p>
+ * Esta classe implementa as operações CRUD (Create, Read, Update, Delete)
+ * para a tabela <b>ddd_consulta</b>, permitindo o gerenciamento das consultas
+ * médicas associadas aos usuários do sistema.
+ * </p>
+ *
+ * <p>Utiliza a {@link ConnectionFactory} para gerenciar conexões com o banco de dados.</p>
+ *
+ * @author Lucas Barros Gouveia
+ * @author Enzo Okuizumi Miranda de Souza
+ * @author Milton Jakson de Souza Marcelino
+ * @version 1.0
+ * @since 21.0.7
+ */
 public class ConsultaDAO {
 
-    private void popularConsulta(ConsultaTO consulta, ResultSet rs) throws SQLException {
-        consulta.setIdConsulta(rs.getLong("id_consulta"));
-        consulta.setEspecialidade(rs.getString("especialidade"));
-        consulta.setMedico(rs.getString("medico"));
-        consulta.setData(rs.getDate("data_consulta").toLocalDate());
-        consulta.setHora(rs.getString("hora_consulta"));
-        consulta.setTipo(rs.getString("tipo"));
-        consulta.setLocal(rs.getString("local"));
-        consulta.setObservacoes(rs.getString("observacoes"));
-        consulta.setStatus(rs.getString("status"));
-        consulta.setIdUser(rs.getLong("id_user"));
-    }
-
-    public ArrayList<ConsultaTO> findAllByUserId(Long userId) {
-        ArrayList<ConsultaTO> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM ddd_consulta WHERE id_user = ? ORDER BY data_consulta DESC, hora_consulta DESC"; // Ordenar por data/hora
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ps.setLong(1, userId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ConsultaTO consulta = new ConsultaTO();
-                popularConsulta(consulta, rs); // Reutiliza o método existente
-                consultas.add(consulta);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro na consulta por ID de usuário: " + e.getMessage());
-        } finally {
-            ConnectionFactory.closeConnection();
-        }
-        return consultas;
-    }
-
+    /**
+     * Recupera todas as consultas cadastradas na tabela <b>ddd_consulta</b>.
+     *
+     * @return uma lista de {@link ConsultaTO} com todas as consultas encontradas,
+     * ou {@code null} caso ocorra um erro na consulta.
+     */
     public ArrayList<ConsultaTO> findAll() {
-        ArrayList<ConsultaTO> consultas = new ArrayList<>();
+        ArrayList<ConsultaTO> consultas = new ArrayList<ConsultaTO>();
         String sql = "SELECT * FROM ddd_consulta ORDER BY id_consulta";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ConsultaTO consulta = new ConsultaTO();
-                popularConsulta(consulta, rs);
-                consultas.add(consulta);
+            if (rs != null) {
+                while (rs.next()) {
+                    ConsultaTO consulta = new ConsultaTO();
+                    consulta.setIdConsulta(rs.getLong("id_consulta"));
+                    consulta.setEspecialidade(rs.getString("especialidade"));
+                    consulta.setNomeCuidador(rs.getString("nome_cuidador"));
+                    consulta.setData(rs.getDate("data").toLocalDate());
+                    consulta.setHora(rs.getTimestamp("hora").toLocalDateTime());
+                    consulta.setTipo(rs.getString("tipo"));
+                    consulta.setLocal(rs.getString("local"));
+                    consulta.setObservacoes(rs.getString("observacoes"));
+                    consulta.setStatus(rs.getString("status"));
+                    consulta.setIdUser(rs.getLong("id_user"));
+                    consultas.add(consulta);
+                }
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
@@ -57,15 +61,32 @@ public class ConsultaDAO {
         return consultas;
     }
 
+    /**
+     * Busca uma consulta pelo seu identificador único (ID).
+     *
+     * @param id_consulta o código (ID) da consulta a ser buscada.
+     * @return um objeto {@link ConsultaTO} correspondente ao ID informado,
+     * ou {@code null} se nenhum registro for encontrado.
+     */
     public ConsultaTO findByCodigo(Long id_consulta) {
-        ConsultaTO consulta = null;
+        ConsultaTO consulta = new ConsultaTO();
         String sql = "SELECT * FROM ddd_consulta WHERE id_consulta = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id_consulta);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                consulta = new ConsultaTO();
-                popularConsulta(consulta, rs);
+                consulta.setIdConsulta(rs.getLong("id_consulta"));
+                consulta.setEspecialidade(rs.getString("especialidade"));
+                consulta.setNomeCuidador(rs.getString("nome_cuidador"));
+                consulta.setData(rs.getDate("data").toLocalDate());
+                consulta.setHora(rs.getTimestamp("hora").toLocalDateTime());
+                consulta.setTipo(rs.getString("tipo"));
+                consulta.setLocal(rs.getString("local"));
+                consulta.setObservacoes(rs.getString("observacoes"));
+                consulta.setStatus(rs.getString("status"));
+                consulta.setIdUser(rs.getLong("id_user"));
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
@@ -75,15 +96,21 @@ public class ConsultaDAO {
         return consulta;
     }
 
+    /**
+     * Insere um novo registro de consulta na tabela <b>ddd_consulta</b>.
+     *
+     * @param consulta o objeto {@link ConsultaTO} contendo os dados a serem inseridos.
+     * @return o próprio {@link ConsultaTO} se o registro for inserido com sucesso,
+     * ou {@code null} em caso de erro.
+     */
     public ConsultaTO save(ConsultaTO consulta) {
-        // SQL ajustado para 'local' e 'hora_consulta'
-        String sql = "INSERT INTO ddd_consulta(especialidade, medico, data_consulta, hora_consulta, tipo, local, observacoes, status, id_user) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO ddd_consulta(especialidade, nome_cuidador, data, hora, tipo, local, observacoes, status, id_user) VALUES(?,?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, consulta.getEspecialidade());
-            ps.setString(2, consulta.getMedico());
+            ps.setString(2, consulta.getNomeCuidador());
             ps.setDate(3, Date.valueOf(consulta.getData()));
-            ps.setString(4, consulta.getHora());
+            ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora()));
             ps.setString(5, consulta.getTipo());
             ps.setString(6, consulta.getLocal());
             ps.setString(7, consulta.getObservacoes());
@@ -91,36 +118,49 @@ public class ConsultaDAO {
             ps.setLong(9, consulta.getIdUser());
             if (ps.executeUpdate() > 0) {
                 return consulta;
+            } else {
+                return null;
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao salvar consulta: " + e.getMessage());
+            System.out.println("Erro ao salvar: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
         return null;
     }
 
+    /**
+     * Exclui uma consulta pelo seu identificador único (ID).
+     *
+     * @param id_consulta o identificador da consulta a ser excluída.
+     * @return {@code true} se a exclusão for bem-sucedida, {@code false} caso contrário.
+     */
     public boolean delete(Long id_consulta) {
         String sql = "DELETE FROM ddd_consulta WHERE id_consulta = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id_consulta);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Erro ao excluir consulta: " + e.getMessage());
+            System.out.println("Erro ao excluir: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
         return false;
     }
 
+    /**
+     * Atualiza os dados de uma consulta existente na tabela <b>ddd_consulta</b>.
+     *
+     * @param consulta o objeto {@link ConsultaTO} contendo os novos dados da consulta.
+     * @return o {@link ConsultaTO} atualizado, ou {@code null} se ocorrer algum erro.
+     */
     public ConsultaTO update(ConsultaTO consulta) {
-        // SQL ajustado para 'local' e 'hora_consulta'
-        String sql = "UPDATE ddd_consulta SET especialidade=?, medico=?, data_consulta=?, hora_consulta=?, tipo=?, local=?, observacoes=?, status=?, id_user=? WHERE id_consulta=?";
+        String sql = "UPDATE ddd_consulta SET especialidade=?, nome_cuidador=?, data=?, hora=?, tipo=?, local=?, observacoes=?, status=?, id_user=? WHERE id_consulta=?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, consulta.getEspecialidade());
-            ps.setString(2, consulta.getMedico());
+            ps.setString(2, consulta.getNomeCuidador());
             ps.setDate(3, Date.valueOf(consulta.getData()));
-            ps.setString(4, consulta.getHora());
+            ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora()));
             ps.setString(5, consulta.getTipo());
             ps.setString(6, consulta.getLocal());
             ps.setString(7, consulta.getObservacoes());
@@ -130,9 +170,11 @@ public class ConsultaDAO {
 
             if (ps.executeUpdate() > 0) {
                 return consulta;
+            } else {
+                return null;
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar consulta: " + e.getMessage());
+            System.out.println("Erro ao atualizar: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }

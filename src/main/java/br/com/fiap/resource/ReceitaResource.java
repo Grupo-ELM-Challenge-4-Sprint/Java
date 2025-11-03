@@ -9,88 +9,102 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 
+/**
+ * <p>Classe Resource que expõe os endpoints REST para operações relacionadas a receitas.</p>
+ * <p>Utiliza a {@link br.com.fiap.bo.ReceitaBO} para manipulação de dados.</p>
+ *
+ * Endpoints disponíveis:
+ * <ul>
+ *     <li>GET /receita - Retorna todas as receitas</li>
+ *     <li>GET /receita/{id_receita} - Retorna receita pelo ID</li>
+ *     <li>POST /receita - Cadastra uma nova receita</li>
+ *     <li>PUT /receita/{id_receita} - Atualiza receita existente</li>
+ *     <li>DELETE /receita/{id_receita} - Remove receita pelo ID</li>
+ * </ul>
+ *
+ * @author Lucas Barros Gouveia
+ * @author Enzo Okuizumi Miranda de Souza
+ * @author Milton Jakson de Souza Marcelino
+ * @version 1.0
+ * @since 21.0.7
+ */
 @Path("/receita")
 public class ReceitaResource {
     private ReceitaBO receitaBO = new ReceitaBO();
 
+    /**
+     * Retorna todas as receitas.
+     *
+     * @return Response com status 200 (OK) e lista de {@link ReceitaTO}, ou 404 se não houver dados.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         ArrayList<ReceitaTO> resultado = receitaBO.findAll();
-        Response.ResponseBuilder response = null;
-        if (resultado != null) {
-            response = Response.ok();  // 200 - OK
-        } else {
-            response = Response.status(404);  // 404 - NOT FOUND
-        }
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
         response.entity(resultado);
         return response.build();
     }
 
-    @GET
-    @Path("/usuario/{userId}") // Novo endpoint
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findAllByUserId(@PathParam("userId") Long userId) {
-        ArrayList<ReceitaTO> resultado = receitaBO.findAllByUserId(userId);
-        // Retorna OK mesmo se a lista estiver vazia
-        return Response.ok(resultado).build();
-    }
-
+    /**
+     * Busca receita pelo ID.
+     *
+     * @param codigo ID da receita.
+     * @return Response com status 200 (OK) e {@link ReceitaTO}, ou 404 se não encontrado.
+     */
     @GET
     @Path("/{id_receita}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByCodigo(@PathParam("id_receita") Long codigo) {
         ReceitaTO resultado = receitaBO.findByCodigo(codigo);
-        Response.ResponseBuilder response = null;
-        if (resultado != null) {
-            response = Response.ok();  // 200 (OK)
-        } else {
-            response = Response.status(404);  // 404 (NOT FOUND)
-        }
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
         response.entity(resultado);
         return response.build();
     }
 
+    /**
+     * Cadastra uma nova receita.
+     *
+     * @param receita {@link ReceitaTO} com os dados da receita.
+     * @return Response com status 201 (CREATED) e {@link ReceitaTO}, ou 400 se falhar.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response save(@Valid ReceitaTO receita) {
         ReceitaTO resultado = receitaBO.save(receita);
-        Response.ResponseBuilder response = null;
-        if (resultado != null) {
-            response = Response.created(null);  // 201 - CREATED
-        } else {
-            response = Response.status(400);  // 400 - BAD REQUEST
-        }
+        Response.ResponseBuilder response = (resultado != null) ? Response.created(null) : Response.status(400);
         response.entity(resultado);
         return response.build();
     }
 
-    @DELETE
-    @Path("/{id_receita}")
-    public Response delete(@PathParam("id_receita") Long codigo) {
-        Response.ResponseBuilder response = null;
-        if (receitaBO.delete(codigo)) {
-            response = Response.status(204); // 204 - NO CONTENT
-        } else {
-            response = Response.status(404); // 404 - NOT FOUND
-        }
-        return response.build();
-    }
-
+    /**
+     * Atualiza uma receita existente.
+     *
+     * @param receita {@link ReceitaTO} com dados atualizados.
+     * @param idReceita ID da receita a ser atualizada.
+     * @return Response com status 201 (CREATED) e {@link ReceitaTO}, ou 400 se falhar.
+     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id_receita}")
     public Response update(@Valid ReceitaTO receita, @PathParam("id_receita") Long idReceita) {
         receita.setIdReceita(idReceita);
         ReceitaTO resultado = receitaBO.update(receita);
-        Response.ResponseBuilder response = null;
-
-        if (resultado != null) {
-            response = Response.created(null); // 201 - CREATED (Também poderia usar o 200 - OK)
-        } else {
-            response = Response.status(400); // 400 - BAD REQUEST
-        }
+        Response.ResponseBuilder response = (resultado != null) ? Response.created(null) : Response.status(400);
         response.entity(resultado);
+        return response.build();
+    }
+
+    /**
+     * Remove receita pelo ID.
+     *
+     * @param codigo ID da receita a ser removida.
+     * @return Response com status 204 (NO CONTENT) se removido, ou 404 se não encontrado.
+     */
+    @DELETE
+    @Path("/{id_receita}")
+    public Response delete(@PathParam("id_receita") Long codigo) {
+        Response.ResponseBuilder response = (receitaBO.delete(codigo)) ? Response.status(204) : Response.status(404);
         return response.build();
     }
 }
