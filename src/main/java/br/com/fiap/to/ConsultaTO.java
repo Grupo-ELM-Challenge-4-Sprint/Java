@@ -4,12 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Representa uma consulta médica no sistema.
  *
- * <p>Esta classe contém informações sobre o tipo de consulta, especialidade, cuidador responsável,
+ * <p>Esta classe contém informações sobre o tipo de consulta, especialidade, medico responsável,
  * data, hora, local, observações e status da consulta.</p>
  *
  * @author Lucas Barros Gouveia
@@ -39,7 +38,7 @@ public class ConsultaTO {
 
     /** Horário em que a consulta está marcada. */
     @NotNull
-    private LocalDateTime hora;
+    private String hora;
 
     /** Tipo de consulta (Presencial ou online"). */
     @NotBlank
@@ -83,12 +82,10 @@ public class ConsultaTO {
      * @param status       status atual da consulta
      * @param idUser       identificador do usuário vinculado
      */
-    public ConsultaTO(Long idConsulta, String medico, String especialidade, LocalDate data,
-                      LocalDateTime hora, String tipo, String local, String observacoes,
-                      String status, Long idUser) {
+    public ConsultaTO(Long idConsulta, String especialidade, String medico, LocalDate data, String hora, String tipo, String local, String observacoes, String status, Long idUser) {
         this.idConsulta = idConsulta;
-        this.medico = this.medico;
         this.especialidade = especialidade;
+        this.medico = medico;
         this.data = data;
         this.hora = hora;
         this.tipo = tipo;
@@ -124,16 +121,16 @@ public class ConsultaTO {
         this.idUser = idUser;
     }
 
-    /** @return o nome do cuidador responsável */
+    /** @return o nome do medico responsável */
     public String getMedico() {
         return medico;
     }
 
     /**
-     * Define o nome do cuidador responsável.
-     * @param nomeCuidador o nome completo do cuidador
+     * Define o nome do medico responsável.
+     * @param medico o nome completo do medico
      */
-    public void setMedico(String nomeCuidador) {
+    public void setMedico(String medico) {
         this.medico = medico;
     }
 
@@ -164,7 +161,7 @@ public class ConsultaTO {
     }
 
     /** @return o horário da consulta */
-    public LocalDateTime getHora() {
+    public String getHora() {
         return hora;
     }
 
@@ -172,7 +169,7 @@ public class ConsultaTO {
      * Define o horário da consulta.
      * @param hora o horário agendado
      */
-    public void setHora(LocalDateTime hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
