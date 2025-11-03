@@ -202,22 +202,23 @@ public class UsuarioTO {
         this.cpfCuidador = cpfCuidador;
     }
 
-    /** @return o valor (true/false) dependendo se o paciente está sendo editado. */
-    public boolean getPacienteEditar() {
-        return pacienteEditar;
+
+    /** @return o CPF do cuidador responsável */
+    public String getCpfPaciente() {
+        return cpfPaciente;
     }
 
     /**
      * Define o CPF do paciente.
      * @param cpfPaciente o CPF do paciente
      */
-
-    public String getCpfPaciente() {
-        return cpfPaciente;
-    }
-
     public void setCpfPaciente(String cpfPaciente) {
         this.cpfPaciente = cpfPaciente;
+    }
+
+    /** @return o valor (true/false) dependendo se o paciente está sendo editado. */
+    public boolean getPacienteEditar() {
+        return pacienteEditar;
     }
 
     /**

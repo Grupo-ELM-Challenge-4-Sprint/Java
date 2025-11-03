@@ -28,10 +28,10 @@ public class ConsultaTO {
     @NotBlank
     private String especialidade;
 
-    /** Nome completo do cuidador ou profissional de saúde responsável pela consulta. */
+    /** Nome completo do médico responsável pela consulta. */
     @NotBlank
     @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$")
-    private String nomeCuidador;
+    private String medico;
 
     /** Data em que a consulta está agendada. */
     @NotNull
@@ -73,7 +73,7 @@ public class ConsultaTO {
      * Construtor completo para inicializar todos os atributos de uma consulta.
      *
      * @param idConsulta   identificador único da consulta
-     * @param nomeCuidador nome do cuidador ou profissional responsável
+     * @param medico       nome do médico
      * @param especialidade especialidade médica
      * @param data         data da consulta
      * @param hora         horário da consulta
@@ -83,11 +83,11 @@ public class ConsultaTO {
      * @param status       status atual da consulta
      * @param idUser       identificador do usuário vinculado
      */
-    public ConsultaTO(Long idConsulta, String nomeCuidador, String especialidade, LocalDate data,
+    public ConsultaTO(Long idConsulta, String medico, String especialidade, LocalDate data,
                       LocalDateTime hora, String tipo, String local, String observacoes,
                       String status, Long idUser) {
         this.idConsulta = idConsulta;
-        this.nomeCuidador = nomeCuidador;
+        this.medico = this.medico;
         this.especialidade = especialidade;
         this.data = data;
         this.hora = hora;
@@ -125,16 +125,16 @@ public class ConsultaTO {
     }
 
     /** @return o nome do cuidador responsável */
-    public String getNomeCuidador() {
-        return nomeCuidador;
+    public String getMedico() {
+        return medico;
     }
 
     /**
      * Define o nome do cuidador responsável.
      * @param nomeCuidador o nome completo do cuidador
      */
-    public void setNomeCuidador(String nomeCuidador) {
-        this.nomeCuidador = nomeCuidador;
+    public void setMedico(String nomeCuidador) {
+        this.medico = medico;
     }
 
     /** @return a especialidade médica da consulta */

@@ -40,7 +40,7 @@ public class ConsultaDAO {
                     ConsultaTO consulta = new ConsultaTO();
                     consulta.setIdConsulta(rs.getLong("id_consulta"));
                     consulta.setEspecialidade(rs.getString("especialidade"));
-                    consulta.setNomeCuidador(rs.getString("nome_cuidador"));
+                    consulta.setMedico(rs.getString("medico"));
                     consulta.setData(rs.getDate("data").toLocalDate());
                     consulta.setHora(rs.getTimestamp("hora").toLocalDateTime());
                     consulta.setTipo(rs.getString("tipo"));
@@ -77,7 +77,7 @@ public class ConsultaDAO {
             if (rs.next()) {
                 consulta.setIdConsulta(rs.getLong("id_consulta"));
                 consulta.setEspecialidade(rs.getString("especialidade"));
-                consulta.setNomeCuidador(rs.getString("nome_cuidador"));
+                consulta.setMedico(rs.getString("medico"));
                 consulta.setData(rs.getDate("data").toLocalDate());
                 consulta.setHora(rs.getTimestamp("hora").toLocalDateTime());
                 consulta.setTipo(rs.getString("tipo"));
@@ -104,11 +104,11 @@ public class ConsultaDAO {
      * ou {@code null} em caso de erro.
      */
     public ConsultaTO save(ConsultaTO consulta) {
-        String sql = "INSERT INTO ddd_consulta(especialidade, nome_cuidador, data, hora, tipo, local, observacoes, status, id_user) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO ddd_consulta(especialidade, medico, data, hora, tipo, local, observacoes, status, id_user) VALUES(?,?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, consulta.getEspecialidade());
-            ps.setString(2, consulta.getNomeCuidador());
+            ps.setString(2, consulta.getMedico());
             ps.setDate(3, Date.valueOf(consulta.getData()));
             ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora()));
             ps.setString(5, consulta.getTipo());
@@ -155,10 +155,10 @@ public class ConsultaDAO {
      * @return o {@link ConsultaTO} atualizado, ou {@code null} se ocorrer algum erro.
      */
     public ConsultaTO update(ConsultaTO consulta) {
-        String sql = "UPDATE ddd_consulta SET especialidade=?, nome_cuidador=?, data=?, hora=?, tipo=?, local=?, observacoes=?, status=?, id_user=? WHERE id_consulta=?";
+        String sql = "UPDATE ddd_consulta SET especialidade=?, medico=?, data=?, hora=?, tipo=?, local=?, observacoes=?, status=?, id_user=? WHERE id_consulta=?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, consulta.getEspecialidade());
-            ps.setString(2, consulta.getNomeCuidador());
+            ps.setString(2, consulta.getMedico());
             ps.setDate(3, Date.valueOf(consulta.getData()));
             ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora()));
             ps.setString(5, consulta.getTipo());

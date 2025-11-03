@@ -53,8 +53,8 @@ public class ReceitaTO {
     private LocalDate dataInicio;
 
     /** Hora inicial em que a receita foi prescrita. */
-    @NotNull
-    private LocalDateTime horaInicio;
+    @NotBlank
+    private String horaInicio;
 
     /** Observações adicionais sobre a receita, como instruções especiais ou restrições. */
     @NotBlank
@@ -93,7 +93,7 @@ public class ReceitaTO {
      * @param observacoes observações gerais sobre a receita
      * @param status      status da receita ("ativo" ou "inativo")
      */
-    public ReceitaTO(Long idReceita, Long idUser, String nome, String frequencia, String[] dias, Long numeroDias, LocalDate dataInicio, LocalDateTime horaInicio, String observacoes, String status) {
+    public ReceitaTO(Long idReceita, Long idUser, String nome, String frequencia, String[] dias, Long numeroDias, LocalDate dataInicio, String horaInicio, String observacoes, String status) {
         this.idReceita = idReceita;
         this.idUser = idUser;
         this.nome = nome;
@@ -133,7 +133,7 @@ public class ReceitaTO {
     }
 
     /** @return o horário de início da receita */
-    public LocalDateTime getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
@@ -141,7 +141,7 @@ public class ReceitaTO {
      * Define o horário de início da receita.
      * @param horaInicio a hora de início
      */
-    public void setHoraInicio(LocalDateTime horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 

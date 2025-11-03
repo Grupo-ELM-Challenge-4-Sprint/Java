@@ -46,7 +46,7 @@ public class ReceitaDAO {
                     receita.setDias(new String[]{rs.getString("dias")});
                     receita.setNumeroDias(rs.getLong("numero_dias"));
                     receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
-                    receita.setHoraInicio(rs.getTimestamp("hora_inicio").toLocalDateTime());
+                    receita.setHoraInicio(rs.getString("hora_inicio"));
                     receita.setObservacoes(rs.getString("observacoes"));
                     receita.setStatus(rs.getString("status"));
                     receitas.add(receita);
@@ -83,7 +83,7 @@ public class ReceitaDAO {
                 receita.setDias(new String[]{rs.getString("dias")});
                 receita.setNumeroDias(rs.getLong("numero_dias"));
                 receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
-                receita.setHoraInicio(rs.getTimestamp("hora_inicio").toLocalDateTime());
+                receita.setHoraInicio(rs.getString("hora_inicio"));
                 receita.setObservacoes(rs.getString("observacoes"));
                 receita.setStatus(rs.getString("status"));
             } else {
