@@ -13,7 +13,7 @@ public class UsuarioTO {
     private String tipoUsuario;
     private String cpfPaciente;
     private String cpfCuidador;
-    private boolean pacienteEditar = true;
+    private boolean pacienteEditar;
 
     public UsuarioTO() {
     }
