@@ -70,7 +70,7 @@ public class UsuarioResource {
      * @return Response com status 200 (OK) e {@link UsuarioTO}, ou 404 se não encontrado.
      */
     @GET
-    @Path("/{cpf}")
+    @Path("cpf/{cpf}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByCpf(@PathParam("cpf") String cpf) {
         UsuarioTO resultado = usuarioBO.findByCpf(cpf);
