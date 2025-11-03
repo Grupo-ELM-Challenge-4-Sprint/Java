@@ -46,6 +46,9 @@ public class UsuarioTO {
     @NotBlank
     @Pattern(regexp = "^(?:\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11})$")
     private String cpfCuidador;
+    @NotBlank
+    @Pattern(regexp = "^(?:\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11})$")
+    private String cpfPaciente;
     private boolean pacienteEditar;
 
     /**
@@ -65,9 +68,10 @@ public class UsuarioTO {
      * @param dataNascimento data de nascimento
      * @param tipoUsuario   tipo do usuário
      * @param cpfCuidador   CPF do cuidador
+     * @param cpfPaciente   CPF do paciente
      * @param pacienteEditar Se o paciente está sendo editado.
      */
-    public UsuarioTO(Long idUser, String cpf, String nome, String senha, String email, String telefone, LocalDate dataNascimento, String tipoUsuario, String cpfCuidador, boolean pacienteEditar) {
+    public UsuarioTO(Long idUser, String cpf, String nome, String senha, String email, String telefone, LocalDate dataNascimento, String tipoUsuario, String cpfCuidador, String cpfPaciente, boolean pacienteEditar) {
         this.idUser = idUser;
         this.cpf = cpf;
         this.nome = nome;
@@ -77,6 +81,7 @@ public class UsuarioTO {
         this.dataNascimento = dataNascimento;
         this.tipoUsuario = tipoUsuario;
         this.cpfCuidador = cpfCuidador;
+        this.cpfPaciente = cpfPaciente;
         this.pacienteEditar = pacienteEditar;
     }
 
@@ -200,6 +205,19 @@ public class UsuarioTO {
     /** @return o valor (true/false) dependendo se o paciente está sendo editado. */
     public boolean getPacienteEditar() {
         return pacienteEditar;
+    }
+
+    /**
+     * Define o CPF do paciente.
+     * @param cpfPaciente o CPF do paciente
+     */
+
+    public String getCpfPaciente() {
+        return cpfPaciente;
+    }
+
+    public void setCpfPaciente(String cpfPaciente) {
+        this.cpfPaciente = cpfPaciente;
     }
 
     /**

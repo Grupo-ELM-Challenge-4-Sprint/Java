@@ -88,6 +88,7 @@ public class UsuarioDAO {
                 usuario.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
                 usuario.setTipoUsuario(rs.getString("tipo"));
                 usuario.setCpfCuidador(rs.getString("cpf_cuidador"));
+                usuario.setCpfPaciente(rs.getString("cpf_paciente"));
                 usuario.setPacienteEditar(rs.getBoolean("paciente_editar"));
             } else {
                 return null;
@@ -124,6 +125,7 @@ public class UsuarioDAO {
                 usuario.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
                 usuario.setTipoUsuario(rs.getString("tipo"));
                 usuario.setCpfCuidador(rs.getString("cpf_cuidador"));
+                usuario.setCpfPaciente(rs.getString("cpf_paciente"));
                 usuario.setPacienteEditar(rs.getBoolean("paciente_editar"));
             } else {
                 return null;
@@ -144,7 +146,7 @@ public class UsuarioDAO {
      * ou {@code null} em caso de erro.
      */
     public UsuarioTO save(UsuarioTO usuario) {
-        String sql = "INSERT INTO ddd_usuario(cpf, nome, senha, email, telefone, data_nascimento, tipo, cpf_cuidador, paciente_editar) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO ddd_usuario(cpf, nome, senha, email, telefone, data_nascimento, tipo, cpf_cuidador, cpf_paciente, paciente_editar) VALUES(?,?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
         {
@@ -156,7 +158,8 @@ public class UsuarioDAO {
             ps.setDate(6, Date.valueOf(usuario.getDataNascimento()));
             ps.setString(7, usuario.getTipoUsuario());
             ps.setString(8, usuario.getCpfCuidador());
-            ps.setBoolean(9, usuario.getPacienteEditar());
+            ps.setString(9, usuario.getCpfPaciente());
+            ps.setBoolean(10, usuario.getPacienteEditar());
             if (ps.executeUpdate() > 0) {
                 return usuario;
             } else {
@@ -196,7 +199,7 @@ public class UsuarioDAO {
      * @return o {@link UsuarioTO} atualizado, ou {@code null} se ocorrer algum erro.
      */
     public UsuarioTO update(UsuarioTO usuario) {
-        String sql = "update ddd_usuario set cpf=?, nome=?, senha=?, email=?, telefone=?, data_nascimento=?, cpf_cuidador=?, tipo=?, paciente_editar=? where id_user=?";
+        String sql = "update ddd_usuario set cpf=?, nome=?, senha=?, email=?, telefone=?, data_nascimento=?, cpf_cuidador=?, cpf_paciente=?, tipo=?, paciente_editar=? where id_user=?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
             ps.setString(1, usuario.getCpf());
             ps.setString(2, usuario.getNome());
@@ -206,8 +209,9 @@ public class UsuarioDAO {
             ps.setDate(6, Date.valueOf(usuario.getDataNascimento()));
             ps.setString(7, usuario.getTipoUsuario());
             ps.setString(8, usuario.getCpfCuidador());
-            ps.setBoolean(9, usuario.getPacienteEditar());
-            ps.setLong(10, usuario.getIdUser());
+            ps.setString(9, usuario.getCpfPaciente());
+            ps.setBoolean(10, usuario.getPacienteEditar());
+            ps.setLong(11, usuario.getIdUser());
 
             if (ps.executeUpdate() > 0) {
                 return usuario;
