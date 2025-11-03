@@ -96,6 +96,34 @@ public class ConsultaDAO {
         return consulta;
     }
 
+    public ConsultaTO findAllByUserId(Long userId) {
+        ConsultaTO consulta = new ConsultaTO();
+        String sql = "SELECT * FROM ddd_consulta WHERE id_user = ? ORDER BY data_consulta DESC, hora_consulta DESC";
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                consulta.setIdConsulta(rs.getLong("id_consulta"));
+                consulta.setEspecialidade(rs.getString("especialidade"));
+                consulta.setMedico(rs.getString("medico"));
+                consulta.setData(rs.getDate("data_consulta").toLocalDate());
+                consulta.setHora(rs.getString("hora_consulta"));
+                consulta.setTipo(rs.getString("tipo"));
+                consulta.setLocal(rs.getString("local"));
+                consulta.setObservacoes(rs.getString("observacoes"));
+                consulta.setStatus(rs.getString("status"));
+                consulta.setIdUser(rs.getLong("id_user"));
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro na consulta por ID de usuário: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        return consulta;
+    }
+
     /**
      * Insere um novo registro de consulta na tabela <b>ddd_consulta</b>.
      *
@@ -110,7 +138,7 @@ public class ConsultaDAO {
             ps.setString(1, consulta.getEspecialidade());
             ps.setString(2, consulta.getMedico());
             ps.setDate(3, Date.valueOf(consulta.getData()));
-            ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora()));
+            ps.setString(4, consulta.getHora());
             ps.setString(5, consulta.getTipo());
             ps.setString(6, consulta.getLocal());
             ps.setString(7, consulta.getObservacoes());
@@ -160,7 +188,7 @@ public class ConsultaDAO {
             ps.setString(1, consulta.getEspecialidade());
             ps.setString(2, consulta.getMedico());
             ps.setDate(3, Date.valueOf(consulta.getData()));
-            ps.setTimestamp(4, Timestamp.valueOf(consulta.getHora()));
+            ps.setString(4, consulta.getHora());
             ps.setString(5, consulta.getTipo());
             ps.setString(6, consulta.getLocal());
             ps.setString(7, consulta.getObservacoes());

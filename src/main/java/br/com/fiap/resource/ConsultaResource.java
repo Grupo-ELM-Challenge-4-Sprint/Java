@@ -46,6 +46,16 @@ public class ConsultaResource {
         return response.build();
     }
 
+    @GET
+    @Path("/usuario/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllByUserId(@PathParam("userId") Long userId) {
+        ConsultaTO resultado = consultaBO.findAllByUserId(userId);
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
+        response.entity(resultado);
+        return response.build();
+    }
+
     /**
      * Busca consulta pelo ID.
      *

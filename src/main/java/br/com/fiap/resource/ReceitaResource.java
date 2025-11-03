@@ -1,6 +1,9 @@
 package br.com.fiap.resource;
 
 import br.com.fiap.bo.ReceitaBO;
+import br.com.fiap.dao.ConsultaDAO;
+import br.com.fiap.dao.ReceitaDAO;
+import br.com.fiap.to.ConsultaTO;
 import br.com.fiap.to.ReceitaTO;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -60,6 +63,15 @@ public class ReceitaResource {
         Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
         response.entity(resultado);
         return response.build();
+    }
+
+    @GET
+    @Path("/usuario/{userId}") // Novo endpoint
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllByUserId(@PathParam("userId") Long userId) {
+        ReceitaTO resultado = receitaBO.findAllByUserId(userId);
+        // Retorna OK mesmo se a lista estiver vazia
+        return Response.ok(resultado).build();
     }
 
     /**

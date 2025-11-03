@@ -97,6 +97,34 @@ public class ReceitaDAO {
         return receita;
     }
 
+    public ReceitaTO findAllByUserId(Long userId) {
+        ReceitaTO receita = new ReceitaTO();
+        String sql = "SELECT * FROM ddd_receita WHERE id_receita = ?";
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                receita.setIdReceita(rs.getLong("id_receita"));
+                receita.setIdUser(rs.getLong("id_user"));
+                receita.setNome(rs.getString("nome"));
+                receita.setFrequencia(rs.getString("frequencia"));
+                receita.setDias(new String[]{rs.getString("dias")});
+                receita.setNumeroDias(rs.getLong("numero_dias"));
+                receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
+                receita.setHoraInicio(rs.getString("hora_inicio"));
+                receita.setObservacoes(rs.getString("observacoes"));
+                receita.setStatus(rs.getString("status"));
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        return receita;
+    }
+
     /**
      * Insere um novo registro de receita na tabela <b>ddd_receita</b>.
      *

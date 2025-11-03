@@ -40,6 +40,17 @@ public class ReceitaBO {
     }
 
     /**
+     * Busca uma consulta pelo seu código do usuario (userID).
+     *
+     * @param userId Código (ID) da consulta.
+     * @return {@link ReceitaTO} correspondente ao código informado ou null se não encontrada.
+     */
+    public ReceitaTO findAllByUserId(Long userId) {
+        receitaDAO = new ReceitaDAO();
+        return receitaDAO.findAllByUserId(userId);
+    }
+
+    /**
      * Salva uma nova receita no banco de dados.
      *
      * @param receita Objeto {@link ReceitaTO} contendo os dados da receita a ser cadastrada.
