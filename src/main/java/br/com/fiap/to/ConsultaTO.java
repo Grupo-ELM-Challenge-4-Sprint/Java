@@ -20,7 +20,6 @@ import java.time.LocalDate;
 public class ConsultaTO {
 
     /** Identificador único da consulta. */
-    @NotNull
     private Long idConsulta;
 
     /** Especialidade médica ou tipo de atendimento. */

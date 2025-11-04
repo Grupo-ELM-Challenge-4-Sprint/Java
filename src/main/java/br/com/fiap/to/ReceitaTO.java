@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
  */
 public class ReceitaTO {
     /** Identificador único da receita. */
-    @NotNull
     private Long idReceita;
 
     /** Nome do medicamento ou tratamento. Pode conter unidades como mg, g, ml ou UI. */

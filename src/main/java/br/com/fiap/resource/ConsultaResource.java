@@ -49,7 +49,7 @@ public class ConsultaResource {
     /**
      * Busca todas as consultas associadas a um usuário pelo ID.
      *
-     * @param userId o identificador único do usuário (ID) cujas consultas devem ser buscadas.
+     * @param idUser o identificador único do usuário (ID) cujas consultas devem ser buscadas.
      * @return uma resposta HTTP contendo uma lista de objetos {@link ConsultaTO} correspondente ao ID de usuário;
      * se o usuário não tiver consultas, retorna uma lista vazia com o status HTTP 200.
      */
