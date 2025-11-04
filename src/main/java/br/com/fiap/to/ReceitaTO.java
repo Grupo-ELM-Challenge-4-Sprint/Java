@@ -4,7 +4,6 @@ package br.com.fiap.to;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Representa uma receita médica cadastrada no sistema, associada a um {@code UsuarioTO}.
@@ -31,8 +30,9 @@ public class ReceitaTO {
     private String nome;
 
     /** Frequência do consumo do medicamento. */
-    @NotBlank
-    private String frequencia;
+    @NotNull
+    @Min(1)
+    private int frequencia;
 
     /**
      * Dias da semana em que o medicamento deve ser consumido.
@@ -91,7 +91,7 @@ public class ReceitaTO {
      * @param observacoes observações gerais sobre a receita
      * @param status      status da receita ("ativo" ou "inativo")
      */
-    public ReceitaTO(Long idReceita, Long idUser, String nome, String frequencia, String[] dias, Long numeroDias, LocalDate dataInicio, String horaInicio, String observacoes, String status) {
+    public ReceitaTO(Long idReceita, Long idUser, String nome, int frequencia, String[] dias, Long numeroDias, LocalDate dataInicio, String horaInicio, String observacoes, String status) {
         this.idReceita = idReceita;
         this.idUser = idUser;
         this.nome = nome;
@@ -169,8 +169,10 @@ public class ReceitaTO {
         this.nome = nome;
     }
 
-    /** @return a frequência do consumo do medicamento */
-    public String getFrequencia() {
+    /**
+     * @return a frequência do consumo do medicamento
+     */
+    public int getFrequencia() {
         return frequencia;
     }
 
@@ -178,7 +180,7 @@ public class ReceitaTO {
      * Define a frequência do consumo do medicamento.
      * @param frequencia a frequência a ser atribuída
      */
-    public void setFrequencia(String frequencia) {
+    public void setFrequencia(int frequencia) {
         this.frequencia = frequencia;
     }
 

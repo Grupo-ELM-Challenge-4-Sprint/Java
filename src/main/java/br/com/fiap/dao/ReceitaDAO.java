@@ -42,7 +42,7 @@ public class ReceitaDAO {
                     receita.setIdReceita(rs.getLong("id_receita"));
                     receita.setIdUser(rs.getLong("id_user"));
                     receita.setNome(rs.getString("nome"));
-                    receita.setFrequencia(rs.getString("frequencia"));
+                    receita.setFrequencia(rs.getInt("frequencia"));
                     String diasDb = rs.getString("dias");
                     receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
                     receita.setNumeroDias(rs.getLong("numero_dias"));
@@ -80,7 +80,7 @@ public class ReceitaDAO {
                 receita.setIdReceita(rs.getLong("id_receita"));
                 receita.setIdUser(rs.getLong("id_user"));
                 receita.setNome(rs.getString("nome"));
-                receita.setFrequencia(rs.getString("frequencia"));
+                receita.setFrequencia(rs.getInt("frequencia"));
                 String diasDb = rs.getString("dias");
                 receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
                 receita.setNumeroDias(rs.getLong("numero_dias"));
@@ -117,7 +117,7 @@ public class ReceitaDAO {
                 receita.setIdReceita(rs.getLong("id_receita"));
                 receita.setIdUser(rs.getLong("id_user"));
                 receita.setNome(rs.getString("nome"));
-                receita.setFrequencia(rs.getString("frequencia"));
+                receita.setFrequencia(rs.getInt("frequencia"));
                 String diasDb = rs.getString("dias");
                 receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
                 receita.setNumeroDias(rs.getLong("numero_dias"));
@@ -147,9 +147,9 @@ public class ReceitaDAO {
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, receita.getNome());
-            ps.setString(2, receita.getFrequencia());
-            ps.setString(3, Arrays.toString(receita.getDias()));
-            ps.setString(4, String.join(",", receita.getDias()));
+            ps.setInt(2, receita.getFrequencia());
+            ps.setString(3, String.join(",", receita.getDias()));
+            ps.setLong(4, receita.getNumeroDias());
             ps.setDate(5, Date.valueOf(receita.getDataInicio()));
             ps.setString(6, receita.getHoraInicio());
             ps.setString(7, receita.getObservacoes());
@@ -198,7 +198,7 @@ public class ReceitaDAO {
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, receita.getIdUser());
             ps.setString(2, receita.getNome());
-            ps.setString(3, receita.getFrequencia());
+            ps.setInt(3, receita.getFrequencia());
             ps.setString(4, String.join(",", receita.getDias()));
             ps.setLong(5, receita.getNumeroDias());
             ps.setDate(6, Date.valueOf(receita.getDataInicio()));
