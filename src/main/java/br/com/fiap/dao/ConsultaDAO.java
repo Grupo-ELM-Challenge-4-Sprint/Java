@@ -96,32 +96,39 @@ public class ConsultaDAO {
         return consulta;
     }
 
-    public ConsultaTO findAllByUserId(Long userId) {
-        ConsultaTO consulta = new ConsultaTO();
-        String sql = "SELECT * FROM ddd_consulta WHERE id_user = ? ORDER BY data_consulta DESC, hora_consulta DESC";
+    /**
+     * Busca todas as consultas pelo seu identificador único do usuário (ID).
+     *
+     * @param userId o identificador único do usuário (ID) cujas consultas devem ser buscadas.
+     * @return uma lista de objetos {@link ConsultaTO} correspondentes ao usuário informado
+     * ou {@code null} se nenhum registro for encontrado.
+     */
+    public ArrayList<ConsultaTO> findAllByUserId(Long userId) {
+        ArrayList<ConsultaTO> consultas = new ArrayList<>();
+        String sql = "SELECT * FROM ddd_consulta WHERE id_user = ? ORDER BY data DESC, hora DESC";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, userId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
+                ConsultaTO consulta = new ConsultaTO();
                 consulta.setIdConsulta(rs.getLong("id_consulta"));
                 consulta.setEspecialidade(rs.getString("especialidade"));
                 consulta.setMedico(rs.getString("medico"));
-                consulta.setData(rs.getDate("data_consulta").toLocalDate());
-                consulta.setHora(rs.getString("hora_consulta"));
+                consulta.setData(rs.getDate("data").toLocalDate());
+                consulta.setHora(rs.getString("hora"));
                 consulta.setTipo(rs.getString("tipo"));
                 consulta.setLocal(rs.getString("local"));
                 consulta.setObservacoes(rs.getString("observacoes"));
                 consulta.setStatus(rs.getString("status"));
                 consulta.setIdUser(rs.getLong("id_user"));
-            } else {
-                return null;
+                consultas.add(consulta);
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta por ID de usuário: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
-        return consulta;
+        return consultas;
     }
 
     /**

@@ -45,7 +45,7 @@ public class ReceitaBO {
      * @param userId Código (ID) da consulta.
      * @return {@link ReceitaTO} correspondente ao código informado ou null se não encontrada.
      */
-    public ReceitaTO findAllByUserId(Long userId) {
+    public ArrayList<ReceitaTO> findAllByUserId(Long userId) {
         receitaDAO = new ReceitaDAO();
         return receitaDAO.findAllByUserId(userId);
     }

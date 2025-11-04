@@ -97,13 +97,21 @@ public class ReceitaDAO {
         return receita;
     }
 
-    public ReceitaTO findAllByUserId(Long userId) {
-        ReceitaTO receita = new ReceitaTO();
-        String sql = "SELECT * FROM ddd_receita WHERE id_receita = ?";
+    /**
+     * Busca todas as receitas associadas a um determinado usuário.
+     *
+     * @param userId o identificador único do usuário (ID) cujas receitas devem ser buscadas.
+     * @return uma lista de objetos {@link ReceitaTO} correspondentes ao usuário informado;
+     *         uma lista vazia se nenhuma receita for encontrada.
+     */
+    public ArrayList<ReceitaTO> findAllByUserId(Long userId) {
+        ArrayList<ReceitaTO> receitas = new ArrayList<>();
+        String sql = "SELECT * FROM ddd_receita WHERE id_user = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, userId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
+                ReceitaTO receita = new ReceitaTO();
                 receita.setIdReceita(rs.getLong("id_receita"));
                 receita.setIdUser(rs.getLong("id_user"));
                 receita.setNome(rs.getString("nome"));
@@ -114,15 +122,14 @@ public class ReceitaDAO {
                 receita.setHoraInicio(rs.getString("hora_inicio"));
                 receita.setObservacoes(rs.getString("observacoes"));
                 receita.setStatus(rs.getString("status"));
-            } else {
-                return null;
+                receitas.add(receita);
             }
         } catch (SQLException e) {
-            System.out.println("Erro na consulta: " + e.getMessage());
+            System.out.println("Erro ao buscar receitas por ID de usuário: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
-        return receita;
+        return receitas;
     }
 
     /**

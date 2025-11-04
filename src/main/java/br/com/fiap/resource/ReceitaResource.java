@@ -65,12 +65,18 @@ public class ReceitaResource {
         return response.build();
     }
 
+    /**
+     * Busca todas as receitas associadas a um determinado usuário pelo ID.
+     *
+     * @param userId o identificador único do usuário (ID) cujas receitas devem ser buscadas.
+     * @return uma resposta HTTP contendo uma lista de objetos {@link ReceitaTO} correspondente ao ID de usuário;
+     * se o usuário não tiver receitas, retorna uma lista vazia com o status HTTP 200.
+     */
     @GET
-    @Path("/usuario/{userId}") // Novo endpoint
+    @Path("/usuario/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllByUserId(@PathParam("userId") Long userId) {
-        ReceitaTO resultado = receitaBO.findAllByUserId(userId);
-        // Retorna OK mesmo se a lista estiver vazia
+        ArrayList<ReceitaTO> resultado = receitaBO.findAllByUserId(userId);
         return Response.ok(resultado).build();
     }
 
