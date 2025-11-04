@@ -50,6 +50,7 @@ public class UsuarioDAO {
                     usuario.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
                     usuario.setTipoUsuario(rs.getString("tipo"));
                     usuario.setCpfCuidador(rs.getString("cpf_cuidador"));
+                    usuario.setCpfPaciente(rs.getString("cpf_paciente"));
                     usuario.setPacienteEditar(rs.getBoolean("paciente_editar"));
                     usuarios.add(usuario);
                 }
