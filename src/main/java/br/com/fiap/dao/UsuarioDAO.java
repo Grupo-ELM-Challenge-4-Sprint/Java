@@ -200,7 +200,7 @@ public class UsuarioDAO {
      * @return o {@link UsuarioTO} atualizado, ou {@code null} se ocorrer algum erro.
      */
     public UsuarioTO update(UsuarioTO usuario) {
-        String sql = "update ddd_usuario set cpf=?, nome=?, senha=?, email=?, telefone=?, data_nascimento=?, cpf_cuidador=?, cpf_paciente=?, tipo=?, paciente_editar=? where id_user=?";
+        String sql = "update ddd_usuario set cpf=?, nome=?, senha=?, email=?, telefone=?, data_nascimento=?, tipo=?, cpf_cuidador=?, cpf_paciente=?, paciente_editar=? where id_user=?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
             ps.setString(1, usuario.getCpf());
             ps.setString(2, usuario.getNome());
