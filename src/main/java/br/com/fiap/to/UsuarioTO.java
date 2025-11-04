@@ -23,32 +23,40 @@ import java.time.LocalDate;
 public class UsuarioTO {
     @NotNull
     private Long idUser;
+
     @NotBlank
     @CPF
     private String cpf;
+
     @NotBlank
     @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$")
     private String nome;
+
     @NotBlank
     private String senha;
+
     @NotBlank
     @Email
     private String email;
+
     @NotBlank
     @Pattern(regexp = "^(?:\\(?\\d{2}\\)?[\\s-]?)?9?\\d{4}[\\s-]?\\d{4}$")
     private String telefone;
+
     @NotNull
     @Past
     private LocalDate dataNascimento;
+
     @NotBlank
     @Pattern(regexp = "^(?i)(paciente|cuidador)$")
     private String tipoUsuario;
-    @NotBlank
+
     @Pattern(regexp = "^(?:\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11})$")
     private String cpfCuidador;
-    @NotBlank
+
     @Pattern(regexp = "^(?:\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11})$")
     private String cpfPaciente;
+
     private boolean pacienteEditar;
 
     /**
