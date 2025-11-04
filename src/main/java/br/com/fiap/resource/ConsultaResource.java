@@ -58,7 +58,9 @@ public class ConsultaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllByUserId(@PathParam("userId") Long idUser) {
         ArrayList<ConsultaTO> resultado = consultaBO.findAllByUserId(idUser);
-        return Response.ok().entity(resultado).build();
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
+        response.entity(resultado);
+        return response.build();
     }
 
 

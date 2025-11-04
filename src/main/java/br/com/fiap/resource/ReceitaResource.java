@@ -77,7 +77,9 @@ public class ReceitaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllByUserId(@PathParam("userId") Long userId) {
         ArrayList<ReceitaTO> resultado = receitaBO.findAllByUserId(userId);
-        return Response.ok(resultado).build();
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
+        response.entity(resultado);
+        return response.build();
     }
 
     /**
