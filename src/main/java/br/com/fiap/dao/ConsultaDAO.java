@@ -99,15 +99,15 @@ public class ConsultaDAO {
     /**
      * Busca todas as consultas pelo seu identificador único do usuário (ID).
      *
-     * @param userId o identificador único do usuário (ID) cujas consultas devem ser buscadas.
+     * @param idUser o identificador único do usuário (ID) cujas consultas devem ser buscadas.
      * @return uma lista de objetos {@link ConsultaTO} correspondentes ao usuário informado
      * ou {@code null} se nenhum registro for encontrado.
      */
-    public ArrayList<ConsultaTO> findAllByUserId(Long userId) {
+    public ArrayList<ConsultaTO> findAllByUserId(Long idUser) {
         ArrayList<ConsultaTO> consultas = new ArrayList<>();
         String sql = "SELECT * FROM ddd_consulta WHERE id_user = ? ORDER BY data DESC, hora DESC";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ps.setLong(1, userId);
+            ps.setLong(1, idUser);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ConsultaTO consulta = new ConsultaTO();

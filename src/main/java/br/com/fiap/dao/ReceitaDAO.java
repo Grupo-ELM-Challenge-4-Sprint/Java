@@ -102,15 +102,15 @@ public class ReceitaDAO {
     /**
      * Busca todas as receitas associadas a um determinado usuário.
      *
-     * @param userId o identificador único do usuário (ID) cujas receitas devem ser buscadas.
+     * @param idUser o identificador único do usuário (ID) cujas receitas devem ser buscadas.
      * @return uma lista de objetos {@link ReceitaTO} correspondentes ao usuário informado;
      *         uma lista vazia se nenhuma receita for encontrada.
      */
-    public ArrayList<ReceitaTO> findAllByUserId(Long userId) {
+    public ArrayList<ReceitaTO> findAllByUserId(Long idUser) {
         ArrayList<ReceitaTO> receitas = new ArrayList<>();
         String sql = "SELECT * FROM ddd_receita WHERE id_user = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ps.setLong(1, userId);
+            ps.setLong(1, idUser);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ReceitaTO receita = new ReceitaTO();
@@ -151,7 +151,7 @@ public class ReceitaDAO {
             ps.setString(3, Arrays.toString(receita.getDias()));
             ps.setString(4, String.join(",", receita.getDias()));
             ps.setDate(5, Date.valueOf(receita.getDataInicio()));
-            ps.setTimestamp(6, Timestamp.valueOf(receita.getHoraInicio()));
+            ps.setString(6, receita.getHoraInicio());
             ps.setString(7, receita.getObservacoes());
             ps.setString(8, receita.getStatus());
             ps.setLong(9, receita.getIdUser());
@@ -202,7 +202,7 @@ public class ReceitaDAO {
             ps.setString(4, String.join(",", receita.getDias()));
             ps.setLong(5, receita.getNumeroDias());
             ps.setDate(6, Date.valueOf(receita.getDataInicio()));
-            ps.setTimestamp(7, Timestamp.valueOf(receita.getHoraInicio()));
+            ps.setString(7, receita.getHoraInicio());
             ps.setString(8, receita.getObservacoes());
             ps.setString(9, receita.getStatus());
             ps.setLong(10, receita.getIdReceita());

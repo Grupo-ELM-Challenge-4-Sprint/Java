@@ -27,7 +27,6 @@ public class ConsultaTO {
     private String especialidade;
 
     /** Nome completo do médico responsável pela consulta. */
-    @NotBlank
     @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$")
     private String medico;
 
@@ -58,7 +57,6 @@ public class ConsultaTO {
     private String status;
 
     /** Identificador do usuário associado a esta consulta. */
-    @NotNull
     private Long idUser;
 
     /**

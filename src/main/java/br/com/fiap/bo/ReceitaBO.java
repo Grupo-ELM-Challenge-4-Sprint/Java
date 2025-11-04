@@ -40,14 +40,14 @@ public class ReceitaBO {
     }
 
     /**
-     * Busca uma consulta pelo seu código do usuario (userID).
+     * Busca uma consulta pelo seu código do usuario (IdUser).
      *
-     * @param userId Código (ID) da consulta.
+     * @param IdUser Código (ID) da consulta.
      * @return {@link ReceitaTO} correspondente ao código informado ou null se não encontrada.
      */
-    public ArrayList<ReceitaTO> findAllByUserId(Long userId) {
+    public ArrayList<ReceitaTO> findAllByUserId(Long IdUser) {
         receitaDAO = new ReceitaDAO();
-        return receitaDAO.findAllByUserId(userId);
+        return receitaDAO.findAllByUserId(IdUser);
     }
 
     /**

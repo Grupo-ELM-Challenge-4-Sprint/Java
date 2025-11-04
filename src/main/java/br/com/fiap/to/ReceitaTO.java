@@ -69,7 +69,6 @@ public class ReceitaTO {
     private String status;
 
     /** Identificador do usuário (paciente) ao qual a receita pertence. */
-    @NotNull
     private Long idUser;
 
     /**

@@ -40,7 +40,7 @@ public class ConsultaBO {
     }
 
     /**
-     * Busca uma consulta pelo seu código do usuario (userID).
+     * Busca uma consulta pelo seu código do usuario (idUser).
      *
      * @param idUser Código (ID) da consulta.
      * @return {@link ConsultaTO} correspondente ao código informado ou null se não encontrada.
