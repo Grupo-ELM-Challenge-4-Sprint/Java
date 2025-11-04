@@ -43,7 +43,8 @@ public class ReceitaDAO {
                     receita.setIdUser(rs.getLong("id_user"));
                     receita.setNome(rs.getString("nome"));
                     receita.setFrequencia(rs.getString("frequencia"));
-                    receita.setDias(new String[]{rs.getString("dias")});
+                    String diasDb = rs.getString("dias");
+                    receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
                     receita.setNumeroDias(rs.getLong("numero_dias"));
                     receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
                     receita.setHoraInicio(rs.getString("hora_inicio"));
@@ -80,7 +81,8 @@ public class ReceitaDAO {
                 receita.setIdUser(rs.getLong("id_user"));
                 receita.setNome(rs.getString("nome"));
                 receita.setFrequencia(rs.getString("frequencia"));
-                receita.setDias(new String[]{rs.getString("dias")});
+                String diasDb = rs.getString("dias");
+                receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
                 receita.setNumeroDias(rs.getLong("numero_dias"));
                 receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
                 receita.setHoraInicio(rs.getString("hora_inicio"));
@@ -116,7 +118,8 @@ public class ReceitaDAO {
                 receita.setIdUser(rs.getLong("id_user"));
                 receita.setNome(rs.getString("nome"));
                 receita.setFrequencia(rs.getString("frequencia"));
-                receita.setDias(new String[]{rs.getString("dias")});
+                String diasDb = rs.getString("dias");
+                receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
                 receita.setNumeroDias(rs.getLong("numero_dias"));
                 receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
                 receita.setHoraInicio(rs.getString("hora_inicio"));
@@ -146,7 +149,7 @@ public class ReceitaDAO {
             ps.setString(1, receita.getNome());
             ps.setString(2, receita.getFrequencia());
             ps.setString(3, Arrays.toString(receita.getDias()));
-            ps.setLong(4, receita.getNumeroDias());
+            ps.setString(4, String.join(",", receita.getDias()));
             ps.setDate(5, Date.valueOf(receita.getDataInicio()));
             ps.setTimestamp(6, Timestamp.valueOf(receita.getHoraInicio()));
             ps.setString(7, receita.getObservacoes());
@@ -196,7 +199,7 @@ public class ReceitaDAO {
             ps.setLong(1, receita.getIdUser());
             ps.setString(2, receita.getNome());
             ps.setString(3, receita.getFrequencia());
-            ps.setString(4, Arrays.toString(receita.getDias()));
+            ps.setString(4, String.join(",", receita.getDias()));
             ps.setLong(5, receita.getNumeroDias());
             ps.setDate(6, Date.valueOf(receita.getDataInicio()));
             ps.setTimestamp(7, Timestamp.valueOf(receita.getHoraInicio()));
