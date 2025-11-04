@@ -21,7 +21,6 @@ import java.time.LocalDate;
  * @since 21.0.7
  */
 public class UsuarioTO {
-    @NotNull
     private Long idUser;
 
     @NotBlank
@@ -40,7 +39,6 @@ public class UsuarioTO {
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "^(?:\\(?\\d{2}\\)?[\\s-]?)?9?\\d{4}[\\s-]?\\d{4}$")
     private String telefone;
 
     @NotNull

@@ -147,7 +147,7 @@ public class UsuarioDAO {
      * ou {@code null} em caso de erro.
      */
     public UsuarioTO save(UsuarioTO usuario) {
-        String sql = "INSERT INTO ddd_usuario(cpf, nome, senha, email, telefone, data_nascimento, tipo, cpf_cuidador, cpf_paciente, paciente_editar) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO ddd_usuario(cpf, nome, senha, email, telefone, data_nascimento, tipo, cpf_cuidador, cpf_paciente, paciente_editar) VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
         {
