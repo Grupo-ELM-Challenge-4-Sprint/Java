@@ -42,12 +42,12 @@ public class ConsultaBO {
     /**
      * Busca uma consulta pelo seu código do usuario (userID).
      *
-     * @param userId Código (ID) da consulta.
+     * @param idUser Código (ID) da consulta.
      * @return {@link ConsultaTO} correspondente ao código informado ou null se não encontrada.
      */
-    public ArrayList<ConsultaTO> findAllByUserId(Long userId) {
+    public ArrayList<ConsultaTO> findAllByUserId(Long idUser) {
         consultaDAO = new ConsultaDAO();
-        return consultaDAO.findAllByUserId(userId);
+        return consultaDAO.findAllByUserId(idUser);
     }
 
     /**

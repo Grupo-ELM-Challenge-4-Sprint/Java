@@ -66,7 +66,7 @@ public class ReceitaDAO {
     /**
      * Busca uma receita pelo seu identificador único (ID).
      *
-     * @param id_user o código (ID) da receita a ser buscada.
+     * @param id_user o código (ID) do usuario a ser buscado.
      * @return um objeto {@link ReceitaTO} correspondente ao ID informado,
      * ou {@code null} se nenhum registro for encontrado.
      */

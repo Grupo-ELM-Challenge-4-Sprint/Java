@@ -54,10 +54,10 @@ public class ConsultaResource {
      * se o usuário não tiver consultas, retorna uma lista vazia com o status HTTP 200.
      */
     @GET
-    @Path("/usuario/{userId}")
+    @Path("/usuario/{idUser}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAllByUserId(@PathParam("userId") Long userId) {
-        ArrayList<ConsultaTO> resultado = consultaBO.findAllByUserId(userId);
+    public Response findAllByUserId(@PathParam("userId") Long idUser) {
+        ArrayList<ConsultaTO> resultado = consultaBO.findAllByUserId(idUser);
         return Response.ok().entity(resultado).build();
     }
 
