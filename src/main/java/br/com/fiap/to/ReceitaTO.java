@@ -81,7 +81,6 @@ public class ReceitaTO {
      * Construtor completo.
      *
      * @param idReceita   identificador único da receita
-     * @param idUser      identificador do usuário vinculado
      * @param nome        nome do medicamento
      * @param frequencia  frequência de consumo
      * @param dias        dias da semana em que o remedio é consumido
@@ -90,10 +89,10 @@ public class ReceitaTO {
      * @param horaInicio  horário de início da receita
      * @param observacoes observações gerais sobre a receita
      * @param status      status da receita ("ativo" ou "inativo")
+     * @param idUser      identificador do usuário vinculado
      */
-    public ReceitaTO(Long idReceita, Long idUser, String nome, int frequencia, String[] dias, Long numeroDias, LocalDate dataInicio, String horaInicio, String observacoes, String status) {
+    public ReceitaTO(Long idReceita, String nome, int frequencia, String[] dias, Long numeroDias, LocalDate dataInicio, String horaInicio, String observacoes, String status, Long idUser) {
         this.idReceita = idReceita;
-        this.idUser = idUser;
         this.nome = nome;
         this.frequencia = frequencia;
         this.dias = dias;
@@ -102,6 +101,7 @@ public class ReceitaTO {
         this.horaInicio = horaInicio;
         this.observacoes = observacoes;
         this.status = status;
+        this.idUser = idUser;
     }
 
     /** @return o identificador único da receita */

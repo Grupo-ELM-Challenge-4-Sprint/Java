@@ -33,9 +33,7 @@ public class ReceitaDAO {
     public ArrayList<ReceitaTO> findAll() throws SQLException {
         ArrayList<ReceitaTO> receitas = new ArrayList<ReceitaTO>();
         String sql = "SELECT * FROM ddd_receita ORDER BY id_receita";
-        ResultSet rs = null;
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            rs = ps.executeQuery();
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs != null) {
                 while (rs.next()) {
                     ReceitaTO receita = new ReceitaTO();
@@ -59,9 +57,6 @@ public class ReceitaDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
-            if (rs != null) {
-                rs.close();
-            }
         }
         return receitas;
     }

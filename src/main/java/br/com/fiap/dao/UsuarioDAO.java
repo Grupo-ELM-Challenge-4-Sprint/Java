@@ -35,9 +35,7 @@ public class UsuarioDAO {
     public ArrayList<UsuarioTO> findAll() throws SQLException {
         ArrayList<UsuarioTO> usuarios = new ArrayList<UsuarioTO>();
         String sql = "SELECT * FROM ddd_usuario ORDER BY id_user";
-        ResultSet rs = null;
-        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            rs = ps.executeQuery();
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs != null) {
                 while (rs.next()) {
                     UsuarioTO usuario = new UsuarioTO();
@@ -61,9 +59,6 @@ public class UsuarioDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
-            if (rs != null) {
-                rs.close();
-            }
         }
         return usuarios;
     }
