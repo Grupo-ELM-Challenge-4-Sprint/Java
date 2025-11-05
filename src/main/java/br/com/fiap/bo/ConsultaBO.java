@@ -3,6 +3,7 @@ package br.com.fiap.bo;
 import br.com.fiap.dao.ConsultaDAO;
 import br.com.fiap.to.ConsultaTO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +24,7 @@ public class ConsultaBO {
      *
      * @return ArrayList de {@link ConsultaTO} contendo todas as consultas.
      */
-    public ArrayList<ConsultaTO> findAll() {
+    public ArrayList<ConsultaTO> findAll() throws SQLException {
         consultaDAO = new ConsultaDAO();
         return consultaDAO.findAll();
     }
@@ -34,7 +35,7 @@ public class ConsultaBO {
      * @param codigo Código (ID) da consulta.
      * @return {@link ConsultaTO} correspondente ao código informado ou null se não encontrada.
      */
-    public ConsultaTO findByCodigo(Long codigo) {
+    public ConsultaTO findByCodigo(Long codigo) throws SQLException {
         consultaDAO = new ConsultaDAO();
         return consultaDAO.findByCodigo(codigo);
     }
@@ -45,7 +46,7 @@ public class ConsultaBO {
      * @param idUser Código (ID) da consulta.
      * @return {@link ConsultaTO} correspondente ao código informado ou null se não encontrada.
      */
-    public ArrayList<ConsultaTO> findAllByUserId(Long idUser) {
+    public ArrayList<ConsultaTO> findAllByUserId(Long idUser) throws SQLException {
         consultaDAO = new ConsultaDAO();
         return consultaDAO.findAllByUserId(idUser);
     }

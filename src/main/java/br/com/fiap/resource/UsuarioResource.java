@@ -7,6 +7,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -40,7 +41,7 @@ public class UsuarioResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAll() {
+    public Response findAll() throws SQLException {
         ArrayList<UsuarioTO> resultado = usuarioBO.findAll();
         Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
         response.entity(resultado);
@@ -56,7 +57,7 @@ public class UsuarioResource {
     @GET
     @Path("/{id_user}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByCodigo(@PathParam("id_user") Long codigo) {
+    public Response findByCodigo(@PathParam("id_user") Long codigo) throws SQLException {
         UsuarioTO resultado = usuarioBO.findByCodigo(codigo);
         Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
         response.entity(resultado);
@@ -72,7 +73,7 @@ public class UsuarioResource {
     @GET
     @Path("cpf/{cpf}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByCpf(@PathParam("cpf") String cpf) {
+    public Response findByCpf(@PathParam("cpf") String cpf) throws SQLException {
         UsuarioTO resultado = usuarioBO.findByCpf(cpf);
         Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
         response.entity(resultado);

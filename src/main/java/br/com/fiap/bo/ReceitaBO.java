@@ -3,6 +3,7 @@ package br.com.fiap.bo;
 import br.com.fiap.dao.ReceitaDAO;
 import br.com.fiap.to.ReceitaTO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +24,7 @@ public class ReceitaBO {
      *
      * @return ArrayList de {@link ReceitaTO} contendo todas as receitas.
      */
-    public ArrayList<ReceitaTO> findAll() {
+    public ArrayList<ReceitaTO> findAll() throws SQLException {
         receitaDAO = new ReceitaDAO();
         return receitaDAO.findAll();
     }
@@ -34,7 +35,7 @@ public class ReceitaBO {
      * @param codigo Código (ID) da receita.
      * @return {@link ReceitaTO} correspondente ao código informado ou null se não encontrada.
      */
-    public ReceitaTO findByCodigo(Long codigo) {
+    public ReceitaTO findByCodigo(Long codigo) throws SQLException {
         receitaDAO = new ReceitaDAO();
         return receitaDAO.findByCodigo(codigo);
     }
@@ -45,7 +46,7 @@ public class ReceitaBO {
      * @param IdUser Código (ID) da consulta.
      * @return {@link ReceitaTO} correspondente ao código informado ou null se não encontrada.
      */
-    public ArrayList<ReceitaTO> findAllByUserId(Long IdUser) {
+    public ArrayList<ReceitaTO> findAllByUserId(Long IdUser) throws SQLException {
         receitaDAO = new ReceitaDAO();
         return receitaDAO.findAllByUserId(IdUser);
     }

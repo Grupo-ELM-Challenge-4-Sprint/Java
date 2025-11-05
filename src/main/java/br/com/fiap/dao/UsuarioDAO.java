@@ -32,12 +32,12 @@ public class UsuarioDAO {
      * @return retorna uma lista de {@link UsuarioTO} com todos os usuários encontrados,
      * ou {@code null} caso ocorra um erro na consulta.
      */
-    public ArrayList<UsuarioTO> findAll() {
+    public ArrayList<UsuarioTO> findAll() throws SQLException {
         ArrayList<UsuarioTO> usuarios = new ArrayList<UsuarioTO>();
         String sql = "SELECT * FROM ddd_usuario ORDER BY id_user";
-        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
-        {
-            ResultSet rs = ps.executeQuery();
+        ResultSet rs = null;
+        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
                     UsuarioTO usuario = new UsuarioTO();
@@ -61,6 +61,9 @@ public class UsuarioDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return usuarios;
     }
@@ -72,13 +75,13 @@ public class UsuarioDAO {
      * @return um objeto {@link UsuarioTO} correspondente ao ID informado,
      * ou {@code null} se nenhum registro for encontrado.
      */
-    public UsuarioTO findByCodigo(Long codigo) {
+    public UsuarioTO findByCodigo(Long codigo) throws SQLException {
         UsuarioTO usuario = new UsuarioTO();
         String sql = "SELECT * FROM ddd_usuario WHERE id_user = ?";
-        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
-        {
+        ResultSet rs = null;
+        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, codigo);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 usuario.setIdUser(rs.getLong("id_user"));
                 usuario.setCpf(rs.getString("cpf"));
@@ -98,6 +101,9 @@ public class UsuarioDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return usuario;
     }
@@ -109,13 +115,13 @@ public class UsuarioDAO {
      * @return um objeto {@link UsuarioTO} correspondente ao CPF informado,
      * ou {@code null} se nenhum registro for encontrado.
      */
-    public UsuarioTO findByCpf(String cpf) {
+    public UsuarioTO findByCpf(String cpf) throws SQLException {
         UsuarioTO usuario = new UsuarioTO();
         String sql = "SELECT * FROM ddd_usuario WHERE cpf = ?";
-        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql))
-        {
+        ResultSet rs = null;
+        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, cpf);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 usuario.setIdUser(rs.getLong("id_user"));
                 usuario.setCpf(rs.getString("cpf"));
@@ -135,6 +141,9 @@ public class UsuarioDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return usuario;
     }

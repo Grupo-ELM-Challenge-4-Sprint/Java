@@ -30,11 +30,10 @@ public class ConsultaDAO {
      * @return uma lista de {@link ConsultaTO} com todas as consultas encontradas,
      * ou {@code null} caso ocorra um erro na consulta.
      */
-    public ArrayList<ConsultaTO> findAll() {
+    public ArrayList<ConsultaTO> findAll() throws SQLException {
         ArrayList<ConsultaTO> consultas = new ArrayList<ConsultaTO>();
         String sql = "SELECT * FROM ddd_consulta ORDER BY id_consulta";
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs != null) {
                 while (rs.next()) {
                     ConsultaTO consulta = new ConsultaTO();
@@ -68,12 +67,13 @@ public class ConsultaDAO {
      * @return um objeto {@link ConsultaTO} correspondente ao ID informado,
      * ou {@code null} se nenhum registro for encontrado.
      */
-    public ConsultaTO findByCodigo(Long id_consulta) {
+    public ConsultaTO findByCodigo(Long id_consulta) throws SQLException {
         ConsultaTO consulta = new ConsultaTO();
         String sql = "SELECT * FROM ddd_consulta WHERE id_consulta = ?";
+        ResultSet rs = null;
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id_consulta);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 consulta.setIdConsulta(rs.getLong("id_consulta"));
                 consulta.setEspecialidade(rs.getString("especialidade"));
@@ -92,6 +92,9 @@ public class ConsultaDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return consulta;
     }
@@ -103,12 +106,13 @@ public class ConsultaDAO {
      * @return uma lista de objetos {@link ConsultaTO} correspondentes ao usuário informado
      * ou {@code null} se nenhum registro for encontrado.
      */
-    public ArrayList<ConsultaTO> findAllByUserId(Long idUser) {
+    public ArrayList<ConsultaTO> findAllByUserId(Long idUser) throws SQLException {
         ArrayList<ConsultaTO> consultas = new ArrayList<>();
         String sql = "SELECT * FROM ddd_consulta WHERE id_user = ? ORDER BY data DESC, hora DESC";
+        ResultSet rs = null;
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, idUser);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
                     ConsultaTO consulta = new ConsultaTO();
@@ -131,6 +135,9 @@ public class ConsultaDAO {
             System.out.println("Erro na consulta por ID de usuário: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return consultas;
     }

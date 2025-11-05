@@ -30,11 +30,12 @@ public class ReceitaDAO {
      * @return uma lista de {@link ReceitaTO} com todas as receitas encontradas,
      * ou {@code null} caso ocorra um erro na consulta.
      */
-    public ArrayList<ReceitaTO> findAll() {
+    public ArrayList<ReceitaTO> findAll() throws SQLException {
         ArrayList<ReceitaTO> receitas = new ArrayList<ReceitaTO>();
         String sql = "SELECT * FROM ddd_receita ORDER BY id_receita";
+        ResultSet rs = null;
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
                     ReceitaTO receita = new ReceitaTO();
@@ -58,6 +59,9 @@ public class ReceitaDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return receitas;
     }
@@ -69,12 +73,13 @@ public class ReceitaDAO {
      * @return um objeto {@link ReceitaTO} correspondente ao ID informado,
      * ou {@code null} se nenhum registro for encontrado.
      */
-    public ReceitaTO findByCodigo(Long id_receita) {
+    public ReceitaTO findByCodigo(Long id_receita) throws SQLException {
         ReceitaTO receita = new ReceitaTO();
         String sql = "SELECT * FROM ddd_receita WHERE id_receita = ?";
+        ResultSet rs = null;
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id_receita);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 receita.setIdReceita(rs.getLong("id_receita"));
                 receita.setIdUser(rs.getLong("id_user"));
@@ -94,6 +99,9 @@ public class ReceitaDAO {
             System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return receita;
     }
@@ -105,12 +113,13 @@ public class ReceitaDAO {
      * @return uma lista de objetos {@link ReceitaTO} correspondentes ao usuário informado;
      *         uma lista vazia se nenhuma receita for encontrada.
      */
-    public ArrayList<ReceitaTO> findAllByUserId(Long idUser) {
+    public ArrayList<ReceitaTO> findAllByUserId(Long idUser) throws SQLException {
         ArrayList<ReceitaTO> receitas = new ArrayList<>();
         String sql = "SELECT * FROM ddd_receita WHERE id_user = ?";
+        ResultSet rs = null;
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, idUser);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
                     ReceitaTO receita = new ReceitaTO();
@@ -134,6 +143,9 @@ public class ReceitaDAO {
             System.out.println("Erro ao buscar receitas por ID de usuário: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
+            if (rs != null) {
+                rs.close();
+            }
         }
         return receitas;
     }
