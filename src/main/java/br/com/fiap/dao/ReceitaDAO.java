@@ -56,6 +56,8 @@ public class ReceitaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return receitas;
     }
@@ -90,6 +92,8 @@ public class ReceitaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return receita;
     }
@@ -124,6 +128,8 @@ public class ReceitaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao buscar receitas por ID de usuário: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return receitas;
     }
@@ -155,6 +161,8 @@ public class ReceitaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao salvar: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return null;
     }
@@ -172,6 +180,8 @@ public class ReceitaDAO {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Erro ao excluir: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return false;
     }
@@ -203,6 +213,8 @@ public class ReceitaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return null;
     }

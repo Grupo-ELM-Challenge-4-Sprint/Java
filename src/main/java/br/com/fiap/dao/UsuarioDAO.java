@@ -59,6 +59,8 @@ public class UsuarioDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return usuarios;
     }
@@ -94,6 +96,8 @@ public class UsuarioDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return usuario;
     }
@@ -129,6 +133,8 @@ public class UsuarioDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return usuario;
     }
@@ -162,6 +168,8 @@ public class UsuarioDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao salvar: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return null;
     }
@@ -213,6 +221,8 @@ public class UsuarioDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return null;
     }

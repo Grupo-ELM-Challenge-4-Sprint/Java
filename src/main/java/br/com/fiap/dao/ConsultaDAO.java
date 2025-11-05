@@ -55,6 +55,8 @@ public class ConsultaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return consultas;
     }
@@ -88,6 +90,8 @@ public class ConsultaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return consulta;
     }
@@ -121,6 +125,8 @@ public class ConsultaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta por ID de usuário: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return consultas;
     }
@@ -152,6 +158,8 @@ public class ConsultaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao salvar: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return null;
     }
@@ -169,6 +177,8 @@ public class ConsultaDAO {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Erro ao excluir: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return false;
     }
@@ -200,6 +210,8 @@ public class ConsultaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
         }
         return null;
     }
