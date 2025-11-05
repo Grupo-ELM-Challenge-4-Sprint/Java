@@ -111,20 +111,24 @@ public class ReceitaDAO {
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, idUser);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ReceitaTO receita = new ReceitaTO();
-                receita.setIdReceita(rs.getLong("id_receita"));
-                receita.setIdUser(rs.getLong("id_user"));
-                receita.setNome(rs.getString("nome"));
-                receita.setFrequencia(rs.getInt("frequencia"));
-                String diasDb = rs.getString("dias");
-                receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
-                receita.setNumeroDias(rs.getLong("numero_dias"));
-                receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
-                receita.setHoraInicio(rs.getString("hora_inicio"));
-                receita.setObservacoes(rs.getString("observacoes"));
-                receita.setStatus(rs.getString("status"));
-                receitas.add(receita);
+            if (rs != null) {
+                while (rs.next()) {
+                    ReceitaTO receita = new ReceitaTO();
+                    receita.setIdReceita(rs.getLong("id_receita"));
+                    receita.setIdUser(rs.getLong("id_user"));
+                    receita.setNome(rs.getString("nome"));
+                    receita.setFrequencia(rs.getInt("frequencia"));
+                    String diasDb = rs.getString("dias");
+                    receita.setDias(diasDb != null && !diasDb.isEmpty() ? diasDb.split(",") : new String[0]);
+                    receita.setNumeroDias(rs.getLong("numero_dias"));
+                    receita.setDataInicio(rs.getDate("data_inicio").toLocalDate());
+                    receita.setHoraInicio(rs.getString("hora_inicio"));
+                    receita.setObservacoes(rs.getString("observacoes"));
+                    receita.setStatus(rs.getString("status"));
+                    receitas.add(receita);
+                }
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             System.out.println("Erro ao buscar receitas por ID de usuário: " + e.getMessage());

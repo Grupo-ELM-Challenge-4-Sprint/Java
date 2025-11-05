@@ -109,19 +109,23 @@ public class ConsultaDAO {
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, idUser);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ConsultaTO consulta = new ConsultaTO();
-                consulta.setIdConsulta(rs.getLong("id_consulta"));
-                consulta.setEspecialidade(rs.getString("especialidade"));
-                consulta.setMedico(rs.getString("medico"));
-                consulta.setData(rs.getDate("data").toLocalDate());
-                consulta.setHora(rs.getString("hora"));
-                consulta.setTipo(rs.getString("tipo"));
-                consulta.setLocal(rs.getString("local"));
-                consulta.setObservacoes(rs.getString("observacoes"));
-                consulta.setStatus(rs.getString("status"));
-                consulta.setIdUser(rs.getLong("id_user"));
-                consultas.add(consulta);
+            if (rs != null) {
+                while (rs.next()) {
+                    ConsultaTO consulta = new ConsultaTO();
+                    consulta.setIdConsulta(rs.getLong("id_consulta"));
+                    consulta.setEspecialidade(rs.getString("especialidade"));
+                    consulta.setMedico(rs.getString("medico"));
+                    consulta.setData(rs.getDate("data").toLocalDate());
+                    consulta.setHora(rs.getString("hora"));
+                    consulta.setTipo(rs.getString("tipo"));
+                    consulta.setLocal(rs.getString("local"));
+                    consulta.setObservacoes(rs.getString("observacoes"));
+                    consulta.setStatus(rs.getString("status"));
+                    consulta.setIdUser(rs.getLong("id_user"));
+                    consultas.add(consulta);
+                }
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             System.out.println("Erro na consulta por ID de usuário: " + e.getMessage());
