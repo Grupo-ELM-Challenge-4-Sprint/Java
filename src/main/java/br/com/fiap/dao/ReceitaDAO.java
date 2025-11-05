@@ -4,7 +4,6 @@ import br.com.fiap.to.ReceitaTO;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Classe responsável pelo acesso e manipulação dos dados da classe {@link ReceitaTO}
@@ -66,15 +65,15 @@ public class ReceitaDAO {
     /**
      * Busca uma receita pelo seu identificador único (ID).
      *
-     * @param id_user o código (ID) do usuario a ser buscado.
+     * @param id_receita o código (ID) do usuario a ser buscado.
      * @return um objeto {@link ReceitaTO} correspondente ao ID informado,
      * ou {@code null} se nenhum registro for encontrado.
      */
-    public ReceitaTO findByCodigo(Long id_user) {
+    public ReceitaTO findByCodigo(Long id_receita) {
         ReceitaTO receita = new ReceitaTO();
         String sql = "SELECT * FROM ddd_receita WHERE id_receita = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ps.setLong(1, id_user);
+            ps.setLong(1, id_receita);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 receita.setIdReceita(rs.getLong("id_receita"));

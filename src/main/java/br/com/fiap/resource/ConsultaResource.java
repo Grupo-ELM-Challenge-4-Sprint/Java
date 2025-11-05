@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * Endpoints disponíveis:
  * <ul>
  *     <li>GET /consulta - Retorna todas as consultas</li>
+ *     <li>GET /consulta/usuario/{idUser} - Retorna todas as consultas de um usuário</li>
  *     <li>GET /consulta/{id_consulta} - Retorna consulta pelo ID</li>
  *     <li>POST /consulta - Cadastra uma nova consulta</li>
  *     <li>PUT /consulta/{id_consulta} - Atualiza consulta existente</li>

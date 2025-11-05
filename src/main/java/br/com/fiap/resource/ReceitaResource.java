@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * Endpoints disponíveis:
  * <ul>
  *     <li>GET /receita - Retorna todas as receitas</li>
+ *     <li>GET /receita/usuario/{idUser} - Retorna todas as receitas de um usuário</li>
  *     <li>GET /receita/{id_receita} - Retorna receita pelo ID</li>
  *     <li>POST /receita - Cadastra uma nova receita</li>
  *     <li>PUT /receita/{id_receita} - Atualiza receita existente</li>
@@ -50,22 +51,6 @@ public class ReceitaResource {
     }
 
     /**
-     * Busca receita pelo ID.
-     *
-     * @param codigo ID da receita.
-     * @return Response com status 200 (OK) e {@link ReceitaTO}, ou 404 se não encontrado.
-     */
-    @GET
-    @Path("/{id_receita}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findByCodigo(@PathParam("id_receita") Long codigo) {
-        ReceitaTO resultado = receitaBO.findByCodigo(codigo);
-        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
-        response.entity(resultado);
-        return response.build();
-    }
-
-    /**
      * Busca todas as receitas associadas a um determinado usuário pelo ID.
      *
      * @param idUser o identificador único do usuário (ID) cujas receitas devem ser buscadas.
@@ -77,6 +62,22 @@ public class ReceitaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllByUserId(@PathParam("idUser") Long idUser) {
         ArrayList<ReceitaTO> resultado = receitaBO.findAllByUserId(idUser);
+        Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
+        response.entity(resultado);
+        return response.build();
+    }
+
+    /**
+     * Busca receita pelo ID.
+     *
+     * @param codigo ID da receita.
+     * @return Response com status 200 (OK) e {@link ReceitaTO}, ou 404 se não encontrado.
+     */
+    @GET
+    @Path("/{id_receita}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByCodigo(@PathParam("id_receita") Long codigo) {
+        ReceitaTO resultado = receitaBO.findByCodigo(codigo);
         Response.ResponseBuilder response = (resultado != null) ? Response.ok() : Response.status(404);
         response.entity(resultado);
         return response.build();
