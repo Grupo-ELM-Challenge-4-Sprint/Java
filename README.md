@@ -1,5 +1,8 @@
 # Java
 
+**Documentação de Java**:
+https://docs.google.com/document/d/1b0RA6Fp_hmQFm2BzxH5Cd8ex61BAoVD_DEWLU3QEb34/edit?usp=sharing
+
 **Criação das tabelas SQL**:
 
 CREATE TABLE ddd_usuario(
