@@ -1,6 +1,6 @@
 # Java
 
-**Documentação de Java PDF**: https://drive.google.com/file/d/1gq18EpXhwhF24Z6PtwxYAyB095kuCxz5/view?usp=sharing
+**Documentação de Java PDF**: https://drive.google.com/file/d/1uwSOxroFOkXv0p4eAb3_aZ6lid90Fw-2/view?usp=sharing
 
 **Documentação de Java DOCX**: https://docs.google.com/document/d/1b0RA6Fp_hmQFm2BzxH5Cd8ex61BAoVD_DEWLU3QEb34/edit?usp=sharing
 
