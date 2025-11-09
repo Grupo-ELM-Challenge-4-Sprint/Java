@@ -1,7 +1,7 @@
 # Java
 
 **Documentação de Java**:
-https://docs.google.com/document/d/1b0RA6Fp_hmQFm2BzxH5Cd8ex61BAoVD_DEWLU3QEb34/edit?usp=sharing
+https://drive.google.com/file/d/1gq18EpXhwhF24Z6PtwxYAyB095kuCxz5/view?usp=sharing
 
 **Link Render**:
 https://projeto-simpleshc.onrender.com
