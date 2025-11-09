@@ -8,6 +8,8 @@ https://projeto-simpleshc.onrender.com
 
 ---
 
+## Testes Internos 
+
 **Criação das tabelas SQL**:
 
 CREATE TABLE ddd_usuario(
@@ -18,7 +20,7 @@ CREATE TABLE ddd_usuario(
     email VARCHAR2(50) NOT NULL UNIQUE,
     telefone VARCHAR2(16) NOT NULL,
     data_nascimento DATE NOT NULL,
-    tipo_usuario VARCHAR2(10) NOT NULL CHECK (tipo_usuario IN ('PACIENTE', 'CUIDADOR')),
+    tipo VARCHAR2(10) NOT NULL CHECK (tipo IN ('PACIENTE', 'CUIDADOR')),
     cpf_paciente VARCHAR2(11),
     cpf_cuidador VARCHAR2(11),
     paciente_editar NUMBER(1,0) DEFAULT 1 NOT NULL,
